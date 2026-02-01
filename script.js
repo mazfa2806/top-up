@@ -1,4 +1,4 @@
-const API_URL = "PASTE_URL_APPS_SCRIPT_KAMU_DI_SINI";
+const API_URL = "https://script.google.com/macros/s/AKfycbwHxg_ir21pRQKVXi6q66yaSPx_Smii8UtRUPo4NS-zkUyiBByOwNuy0453herHp3bZxw/execI";
 const ADMIN_PASSWORD = "mazfa2806";
 
 /* =====================
