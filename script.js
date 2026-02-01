@@ -1,132 +1,65 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbwHxg_ir21pRQKVXi6q66yaSPx_Smii8UtRUPo4NS-zkUyiBByOwNuy0453herHp3bZxw/execI";
-const ADMIN_PASSWORD = "mazfa2806";
+const API_URL = "https://script.google.com/macros/s/AKfycbwHxg_ir21pRQKVXi6q66yaSPx_Smii8UtRUPo4NS-zkUyiBByOwNuy0453herHp3bZxw/exec";
+const ADMIN_KEY = "mazfa2806";
 
-/* =====================
-   LOAD PRODUK
-===================== */
-function loadProducts(isAdmin = false) {
+function loadProducts(isAdmin) {
   fetch(API_URL)
-    .then(res => res.json())
+    .then(r => r.json())
     .then(data => {
       const list = document.getElementById("product-list");
       list.innerHTML = "";
-
-      if (!data || data.length === 0) {
-        list.innerHTML = "<p>Tidak ada produk</p>";
-        return;
-      }
-
       data.forEach((p, i) => {
-        const card = document.createElement("div");
-        card.className = "card";
-
-        card.innerHTML = `
+        list.innerHTML += `
+        <div class="card">
           <h3>${p.name}</h3>
           <p>Harga: ${p.price}</p>
           <p>Stok: ${p.stock}</p>
-
-          ${isAdmin ? `
-            <button onclick="deleteProduct(${i})" class="btn-delete">
-              Hapus
-            </button>
-          ` : `
-            <button onclick="buyProduct('${p.name}', ${p.price})">
-              Beli
-            </button>
-          `}
-        `;
-
-        list.appendChild(card);
+          ${isAdmin
+            ? `<button onclick="deleteProduct(${i})">Hapus</button>`
+            : `<button onclick="buy('${p.name}',${p.price})">Beli</button>`
+          }
+        </div>`;
       });
-    })
-    .catch(err => {
-      console.error(err);
-      alert("Gagal memuat produk");
     });
 }
 
-/* =====================
-   LOGIN ADMIN
-===================== */
-function loginAdmin() {
-  const pw = document.getElementById("password").value;
-
-  if (pw === ADMIN_PASSWORD) {
-    localStorage.setItem("admin", "true");
-    window.location.href = "admin.html";
-  } else {
-    alert("Password salah");
-  }
+function buy(name, price) {
+  const msg = `Halo admin, saya mau beli ${name} harga ${price}`;
+  window.open(`https://wa.me/62XXXXXXXXXX?text=${encodeURIComponent(msg)}`);
 }
 
-function checkAdmin() {
-  if (localStorage.getItem("admin") !== "true") {
-    window.location.href = "login.html";
-  }
+function login() {
+  const pass = document.getElementById("adminPass").value;
+  if (pass === ADMIN_KEY) {
+    document.getElementById("login-box").style.display = "none";
+    document.getElementById("admin-panel").style.display = "block";
+    loadProducts(true);
+  } else alert("Password salah");
 }
 
-/* =====================
-   TAMBAH PRODUK
-===================== */
-function addProduct() {
-  const name = document.getElementById("name").value;
-  const price = document.getElementById("price").value;
-  const stock = document.getElementById("stock").value;
-
-  if (!name || !price || !stock) {
-    alert("Lengkapi semua data");
-    return;
-  }
-
-  fetch(API_URL, {
-    method: "POST",
-    body: JSON.stringify({
-      action: "add",
-      name,
-      price,
-      stock
-    })
-  })
-    .then(() => {
-      loadProducts(true);
-      alert("Produk ditambahkan");
-    });
-}
-
-/* =====================
-   HAPUS PRODUK
-===================== */
-function deleteProduct(index) {
-  if (!confirm("Hapus produk ini?")) return;
-
-  fetch(API_URL, {
-    method: "POST",
-    body: JSON.stringify({
-      action: "delete",
-      index
-    })
-  })
-    .then(() => {
-      loadProducts(true);
-    });
-}
-
-/* =====================
-   BELI VIA WHATSAPP
-===================== */
-function buyProduct(name, price) {
-  const text = `Halo admin, saya mau beli:
-Produk: ${name}
-Harga: ${price}`;
-
-  const wa = "628XXXXXXXXX"; // ganti nomor kamu
-  window.open(`https://wa.me/${wa}?text=${encodeURIComponent(text)}`);
-}
-
-/* =====================
-   LOGOUT
-===================== */
 function logout() {
-  localStorage.removeItem("admin");
-  window.location.href = "index.html";
-  }
+  location.reload();
+}
+
+function addProduct() {
+  fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      key: ADMIN_KEY,
+      action: "add",
+      Produk: pname.value,
+      Harga: pprice.value,
+      Stok: pstock.value
+    })
+  }).then(() => loadProducts(true));
+}
+
+function deleteProduct(i) {
+  fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      key: ADMIN_KEY,
+      action: "delete",
+      index: i
+    })
+  }).then(() => loadProducts(true));
+     }
