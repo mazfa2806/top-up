@@ -22,9 +22,16 @@ function loadProducts(isAdmin) {
     });
 }
 
-function buy(name, price) {
-  const msg = `Halo admin, saya mau beli ${name} harga ${price}`;
-  window.open(`https://wa.me/6283850340631?text=${encodeURIComponent(msg)}`);
+function buyProduct(name, price) {
+  const waNumber = "6283850340631"; // GANTI NOMOR KAMU (FORMAT BENAR)
+
+  const text = `Halo admin, saya mau beli:
+Produk: ${name}
+Harga: ${price}`;
+
+  const url = "https://wa.me/" + waNumber + "?text=" + encodeURIComponent(text);
+
+  window.location.href = url;
 }
 
 function login() {
