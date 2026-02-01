@@ -24,7 +24,7 @@ function loadProducts(isAdmin) {
 
 function buy(name, price) {
   const msg = `Halo admin, saya mau beli ${name} harga ${price}`;
-  window.open(`https://wa.me/62XXXXXXXXXX?text=${encodeURIComponent(msg)}`);
+  window.open(`https://wa.me/6283850340631?text=${encodeURIComponent(msg)}`);
 }
 
 function login() {
