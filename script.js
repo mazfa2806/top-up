@@ -22,7 +22,7 @@ function loadProducts(isAdmin) {
     });
 }
 
-function buyProduct(name, price) {
+function buy(name, price) {
   const waNumber = "6283850340631"; // GANTI NOMOR KAMU (FORMAT BENAR)
 
   const text = `Halo admin, saya mau beli:
