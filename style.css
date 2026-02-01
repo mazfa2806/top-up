@@ -1,0 +1,41 @@
+body {
+  font-family: Arial;
+  background: radial-gradient(circle at top, #0a2cff, #000);
+  color: white;
+  text-align: center;
+}
+
+.title {
+  margin: 20px;
+  text-shadow: 0 0 15px cyan;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+  gap: 15px;
+  padding: 20px;
+}
+
+.card {
+  background: rgba(0,0,0,0.6);
+  border: 1px solid cyan;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 0 20px rgba(0,255,255,0.4);
+  transform: perspective(800px) rotateX(5deg);
+}
+
+button {
+  background: cyan;
+  border: none;
+  padding: 8px;
+  margin: 5px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+footer {
+  margin-top: 40px;
+  opacity: 0.6;
+}

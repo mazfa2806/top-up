@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin FF Store</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="login-box">
+  <h2>Admin Login</h2>
+  <input type="password" id="adminPass" placeholder="Password admin">
+  <button onclick="login()">Login</button>
+</div>
+
+<div id="admin-panel" style="display:none">
+  <h2>Dashboard Admin</h2>
+
+  <input id="pname" placeholder="Nama Produk">
+  <input id="pprice" placeholder="Harga">
+  <input id="pstock" placeholder="Stok">
+  <button onclick="addProduct()">Tambah Produk</button>
+
+  <div id="product-list" class="grid"></div>
+  <button onclick="logout()">Logout</button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
