@@ -10,12 +10,12 @@ function loadProducts(isAdmin) {
       data.forEach((p, i) => {
         list.innerHTML += `
         <div class="card">
-          <h3>${p.Produk}</h3>
-          <p>Harga: ${p.Harga}</p>
-          <p>Stok: ${p.Stok}</p>
+          <h3>${p.produk}</h3>
+          <p>Harga: ${p.harga}</p>
+          <p>Stok: ${p.stok}</p>
           ${isAdmin
             ? `<button onclick="deleteProduct(${i})">Hapus</button>`
-            : `<button onclick="buy('${p.Produk}',${p.Harga})">Beli</button>`
+            : `<button onclick="buy('${p.produk}',${p.harga})">Beli</button>`
           }
         </div>`;
       });
