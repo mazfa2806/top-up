@@ -42,11 +42,11 @@ footer {
 }
 
 .card {
-  aspect-ratio: 1 / 1;           /* tinggi = lebar, jadi persegi */
+  width: 100%;           /* selebar kolom grid */
+  aspect-ratio: 1 / 1;   /* persegi */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 100%;
   box-sizing: border-box;
 }
 
@@ -82,16 +82,16 @@ footer {
 
 #product-list {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 2 box per baris di HP */
-  gap: 8px; /* jarak antar box */
-  padding: 0 8px;
-  box-sizing: border-box;
-  width: 100%;
+  grid-template-columns: repeat(2, 1fr); /* 2 kolom HP */
+  gap: 8px;       /* jarak antar card */
+  padding: 0 4px; /* padding kanan-kiri lebih kecil */
+  max-width: 100%; /* jangan melebihi layar */
+  margin: 0 auto;  /* center grid */
 }
 
 /* responsive: tablet / layar lebih besar */
 @media (max-width: 400px) {
   #product-list {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* 1 kolom supaya muat layar kecil */
   }
 }
