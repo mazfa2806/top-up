@@ -11,6 +11,15 @@ footer {
   background: #000000;
   color: white;
 }
+
+#loading {
+  text-align: center;
+  margin-top: 50px;
+  color: #00ccff;
+  font-size: 18px;
+  font-weight: bold;
+}
+
 .title {
   margin: 20px;
   text-shadow: 0 0 15px cyan;
