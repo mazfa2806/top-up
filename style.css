@@ -1,15 +1,21 @@
+/* semua elemen hitung padding & border dalam width */
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: Arial;
   background: #000000;
   color: white;
   text-align: center;
-  padding-bottom: 60px;
-  overflow-x: hidden; /* cegah geser kanan-kiri */
+  padding-bottom: 60px; /* space untuk footer */
+  overflow-x: hidden;   /* cegah geser horizontal */
 }
 
-footer {
-  background: #000000;
-  color: white;
+.title {
+  margin: 20px;
+  text-shadow: 0 0 15px cyan;
+  text-align: center;
 }
 
 #loading {
@@ -20,51 +26,62 @@ footer {
   font-weight: bold;
 }
 
-.title {
-  margin: 20px;
-  text-shadow: 0 0 15px cyan;
-  text-align: center; /* pastikan judul di tengah */
+footer {
+  background: #000000;
+  color: white;
+  margin-top: 40px;
+  padding: 10px 0;
+  opacity: 0.6;
 }
 
-.grid {
+/* grid produk */
+#product-list {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  padding: 12px;
+  grid-template-columns: repeat(2, 1fr); /* 2 kolom HP */
+  gap: 8px;
+  padding: 0 4px;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
-.card {
-  background: #0b1a3a;
-  border-radius: 12px;
-  padding: 12px;
-  text-align: center;
-  box-shadow: 0 0 15px rgba(0, 200, 255, 0.4);
+/* tablet / layar besar */
+@media (min-width: 768px) {
+  #product-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
+/* HP super kecil */
+@media (max-width: 400px) {
+  #product-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* card rectangle horizontal */
 .card {
-  aspect-ratio: 4 / 1;       /* lebar = 3x tinggi */
-  width: 100%;               /* selebar kolom grid */
+  aspect-ratio: 4 / 1;           /* lebar 4x tinggi */
+  width: 100%;                   /* selebar kolom grid */
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* teks + tombol tersebar rapi */
+  justify-content: space-between; /* teks + tombol rapi */
   padding: 12px;
   border-radius: 12px;
   background: #0b1a3a;
   box-shadow: 0 0 15px rgba(0,200,255,0.4);
-  box-sizing: border-box;
   text-align: center;
 }
 
 /* judul */
 .card h3 {
-  margin: 0 0 8px 0;        /* jarak bawah judul ke teks berikutnya */
+  margin: 0 0 8px 0;  /* jarak bawah judul ke teks */
   font-size: 18px;
 }
 
 /* paragraf */
 .card p {
-  margin: 4px 0;             /* jarak antar teks */
-  line-height: 1.5;          /* spasi antar baris */
+  margin: 4px 0;       /* jarak antar teks */
+  line-height: 1.5;
   font-size: 14px;
 }
 
@@ -74,33 +91,6 @@ footer {
   padding: 6px 12px;
   border-radius: 8px;
   cursor: pointer;
-}
-
-button {
   background: cyan;
   border: none;
-  padding: 8px;
-  margin: 5px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-footer {
-  margin-top: 40px;
-  opacity: 0.6;
-}
-
-#product-list {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-  padding: 0 4px;
-  max-width: 100%;
-  margin: 0 auto;
-}
-/* responsive: tablet / layar lebih besar */
-@media (max-width: 400px) {
-  #product-list {
-    grid-template-columns: 1fr; /* 1 kolom di layar sangat kecil */
-  }
 }
