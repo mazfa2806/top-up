@@ -2,11 +2,17 @@ const API_URL = "https://script.google.com/macros/s/AKfycbwHxg_ir21pRQKVXi6q66ya
 const ADMIN_KEY = "mazfa2806";
 
 function loadProducts(isAdmin) {
+  const loading = document.getElementById("loading");
+  const list = document.getElementById("product-list");
+
+  if (loading) loading.style.display = "block"; // tampilkan loading
+  if (list) list.innerHTML = "";                // kosongkan dulu
+
   fetch(API_URL)
     .then(r => r.json())
     .then(data => {
-      const list = document.getElementById("product-list");
-      list.innerHTML = "";
+      if (loading) loading.style.display = "none"; // sembunyikan loading
+
       data.forEach((p, i) => {
         list.innerHTML += `
         <div class="card">
@@ -19,6 +25,11 @@ function loadProducts(isAdmin) {
           }
         </div>`;
       });
+    })
+    .catch(err => {
+      if (loading) loading.style.display = "none";
+      console.error(err);
+      alert("Gagal memuat produk");
     });
 }
 
