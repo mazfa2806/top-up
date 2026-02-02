@@ -1,4 +1,4 @@
-/* semua elemen hitung padding & border dalam width */
+/* semua elemen hitung padding & border */
 * {
   box-sizing: border-box;
 }
@@ -58,9 +58,9 @@ footer {
   }
 }
 
-/* card rectangle horizontal */
+/* card rectangle horizontal 3x1 */
 .card {
-  aspect-ratio: 4 / 1;           /* lebar 4x tinggi */
+  aspect-ratio: 3 / 1;           /* lebar 3x tinggi */
   width: 100%;                   /* selebar kolom grid */
   display: flex;
   flex-direction: column;
