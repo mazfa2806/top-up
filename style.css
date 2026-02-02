@@ -40,6 +40,29 @@ footer {
   box-shadow: 0 0 15px rgba(0, 200, 255, 0.4);
 }
 
+.card {
+  aspect-ratio: 1 / 1;           /* tinggi = lebar, jadi persegi */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* teks + tombol tersebar rapi */
+}
+
+.card h3 {
+  margin: 0 0 8px 0;             /* jarak bawah judul ke teks berikutnya */
+}
+
+.card p {
+  margin: 4px 0;                  /* jarak antar paragraf */
+  line-height: 1.5;               /* spasi teks lebih rapi */
+}
+
+.card button {
+  margin-top: 8px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  }
+
 button {
   background: cyan;
   border: none;
