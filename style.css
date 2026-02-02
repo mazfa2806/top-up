@@ -42,29 +42,39 @@ footer {
 }
 
 .card {
-  width: 100%;           /* selebar kolom grid */
-  aspect-ratio: 1 / 1;   /* persegi */
+  aspect-ratio: 3 / 1;       /* lebar = 3x tinggi */
+  width: 100%;               /* selebar kolom grid */
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-between; /* teks + tombol tersebar rapi */
+  padding: 12px;
+  border-radius: 12px;
+  background: #0b1a3a;
+  box-shadow: 0 0 15px rgba(0,200,255,0.4);
   box-sizing: border-box;
+  text-align: center;
 }
 
+/* judul */
 .card h3 {
-  margin: 0 0 8px 0;             /* jarak bawah judul ke teks berikutnya */
+  margin: 0 0 8px 0;        /* jarak bawah judul ke teks berikutnya */
+  font-size: 18px;
 }
 
+/* paragraf */
 .card p {
-  margin: 4px 0;                  /* jarak antar paragraf */
-  line-height: 1.5;               /* spasi teks lebih rapi */
+  margin: 4px 0;             /* jarak antar teks */
+  line-height: 1.5;          /* spasi antar baris */
+  font-size: 14px;
 }
 
+/* tombol */
 .card button {
   margin-top: 8px;
   padding: 6px 12px;
   border-radius: 8px;
   cursor: pointer;
-  }
+}
 
 button {
   background: cyan;
@@ -82,13 +92,12 @@ footer {
 
 #product-list {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* default 2 kolom HP normal */
+  grid-template-columns: repeat(2, 1fr);
   gap: 8px;
   padding: 0 4px;
   max-width: 100%;
   margin: 0 auto;
 }
-
 /* responsive: tablet / layar lebih besar */
 @media (max-width: 400px) {
   #product-list {
