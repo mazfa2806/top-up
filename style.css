@@ -82,16 +82,16 @@ footer {
 
 #product-list {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 2 kolom HP */
-  gap: 8px;       /* jarak antar card */
-  padding: 0 4px; /* padding kanan-kiri lebih kecil */
-  max-width: 100%; /* jangan melebihi layar */
-  margin: 0 auto;  /* center grid */
+  grid-template-columns: repeat(2, 1fr); /* default 2 kolom HP normal */
+  gap: 8px;
+  padding: 0 4px;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
 /* responsive: tablet / layar lebih besar */
 @media (max-width: 400px) {
   #product-list {
-    grid-template-columns: 1fr; /* 1 kolom supaya muat layar kecil */
+    grid-template-columns: 1fr; /* 1 kolom di layar sangat kecil */
   }
 }
