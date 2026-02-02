@@ -42,7 +42,7 @@ footer {
 }
 
 .card {
-  aspect-ratio: 3 / 1;       /* lebar = 3x tinggi */
+  aspect-ratio: 4 / 1;       /* lebar = 3x tinggi */
   width: 100%;               /* selebar kolom grid */
   display: flex;
   flex-direction: column;
