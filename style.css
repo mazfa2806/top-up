@@ -83,9 +83,10 @@ footer {
 #product-list {
   display: grid;
   grid-template-columns: repeat(2, 1fr); /* 2 box per baris di HP */
-  gap: 12px; /* jarak antar box */
-  padding: 12px;
+  gap: 8px; /* jarak antar box */
+  padding: 0 6px;
   box-sizing: border-box;
+  width: 100%;
 }
 
 /* responsive: tablet / layar lebih besar */
