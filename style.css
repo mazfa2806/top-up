@@ -54,8 +54,16 @@ footer {
   opacity: 0.6;
 }
 
-@media (min-width: 768px) {
-  .grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
+#product-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 box per baris di HP */
+  gap: 12px; /* jarak antar box */
+  padding: 12px;
 }
+
+/* responsive: tablet / layar lebih besar */
+@media (min-width: 768px) {
+  #product-list {
+    grid-template-columns: repeat(3, 1fr); /* 3 box per baris */
+  }
+  }
