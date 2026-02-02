@@ -3,8 +3,8 @@ body {
   background: #000000;
   color: white;
   text-align: center;
-  /*tambahan foter*/
   padding-bottom: 60px;
+  overflow-x: hidden; /* cegah geser kanan-kiri */
 }
 
 footer {
@@ -23,6 +23,7 @@ footer {
 .title {
   margin: 20px;
   text-shadow: 0 0 15px cyan;
+  text-align: center; /* pastikan judul di tengah */
 }
 
 .grid {
@@ -44,7 +45,9 @@ footer {
   aspect-ratio: 1 / 1;           /* tinggi = lebar, jadi persegi */
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* teks + tombol tersebar rapi */
+  justify-content: space-between;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .card h3 {
@@ -82,6 +85,7 @@ footer {
   grid-template-columns: repeat(2, 1fr); /* 2 box per baris di HP */
   gap: 12px; /* jarak antar box */
   padding: 12px;
+  box-sizing: border-box;
 }
 
 /* responsive: tablet / layar lebih besar */
