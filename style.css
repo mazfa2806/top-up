@@ -60,37 +60,38 @@ footer {
 
 /* card rectangle horizontal 3x1 */
 .card {
-  aspect-ratio: 3 / 1;           /* lebar 3x tinggi */
-  width: 100%;                   /* selebar kolom grid */
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; /* teks + tombol rapi */
-  padding: 12px;
-  border-radius: 12px;
   background: #0b1a3a;
+  border-radius: 12px;
+  padding: 12px;
   box-shadow: 0 0 15px rgba(0,200,255,0.4);
-  text-align: center;
-}
 
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  min-height: 90px;   /* 🔥 kontrol tinggi card */
+}
 /* judul */
-.card h3 {
-  margin: 0 0 8px 0;  /* jarak bawah judul ke teks */
-  font-size: 18px;
+.card .info {
+  text-align: left;
 }
 
-/* paragraf */
+.card h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
 .card p {
-  margin: 4px 0;       /* jarak antar teks */
-  line-height: 1.5;
-  font-size: 14px;
+  margin: 2px 0;
+  font-size: 13px;
 }
 
 /* tombol */
 .card button {
-  margin-top: 8px;
-  padding: 6px 12px;
+  padding: 8px 16px;
   border-radius: 8px;
-  cursor: pointer;
   background: cyan;
   border: none;
+  cursor: pointer;
+  white-space: nowrap; /* biar gak melebar */
 }
