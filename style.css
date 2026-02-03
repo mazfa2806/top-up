@@ -100,16 +100,21 @@ footer {
   text-shadow: 0 0 15px cyan;
 }
 
+.section-title {
+  margin-top: 28px;     /* jarak dari header */
+  margin-bottom: 12px;  /* jarak ke produk */
+  font-size: 14px;
+  color: #00ccff;
+  font-weight: bold;
+}
+
 .section-title::after {
   content: "";
   display: block;
   width: 80px;
   height: 2px;
   background: cyan;
-  margin: 6px auto 0;
-  margin-top: 28px;   /* jarak dari judul */
-  margin-bottom: 12px;
-  }
+  margin: 6px auto 0;  /* jarak teks ke garis */
 }
 /* tablet / layar besar */
 @media (min-width: 768px) {
