@@ -90,6 +90,14 @@ footer {
   text-shadow: 0 0 15px cyan;
 }
 
+.section-title::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 2px;
+  background: cyan;
+  margin: 6px auto 0;
+}
 /* tablet / layar besar */
 @media (min-width: 768px) {
   #product-list {
