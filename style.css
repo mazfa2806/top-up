@@ -10,11 +10,7 @@ body {
   padding-bottom: 0;
   overflow-x: hidden;
 
-  background: radial-gradient(
-    circle at top,
-    rgba(0, 80, 150, 0.35),
-    #000 60%
-  );
+  background: radial-gradient(circle at top, #0a1a3f, #000);
 }
 
 .title {
@@ -49,12 +45,20 @@ body {
 }
 
 footer {
-  position: static;
-  background: transparent;
-  margin-top: 30px;
-  opacity: 0.6;
+  background: #0b1a3a;          /* sama kayak card */
+  border-radius: 12px;
+  padding: 16px;
+  margin: 12px;                /* sama jarak produk */
+  box-shadow: 0 0 15px rgba(0,200,255,0.4);
+  text-align: center;
+  font-size: 14px;
+  opacity: 0.8;
 }
-
+.footer-card {
+  justify-content: center;
+  font-size: 14px;
+  opacity: 0.7;
+}
 /* grid produk */
 #product-list {
   display: grid;
