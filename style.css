@@ -13,9 +13,12 @@ body {
 }
 
 .title {
-  margin: 20px;
+  font-size: 20px;        /* kecilin judul */
+  white-space: nowrap;   /* paksa 1 baris */
+  overflow: hidden;
+  text-overflow: ellipsis; /* aman kalau layar super kecil */
+  margin: 0;
   text-shadow: 0 0 15px cyan;
-  text-align: center;
 }
 
 #loading {
