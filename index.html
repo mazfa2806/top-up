@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MARKET MAZFA</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -12,28 +12,33 @@
 <div class="top-fixed">
   <div class="header">
     <img src="profil.jpg" class="profile">
-
     <div class="title-wrap">
       <h1 class="title">MAZFA OFFICIAL</h1>
       <div class="status online">● Online</div>
     </div>
   </div>
+  <div class="section-title">Price List Diamond Kami</div>
+</div>
 
-  <div class="section-title">
-    Price List Diamond Kami :
+<!-- DASHBOARD -->
+<div class="dashboard">
+
+  <div id="loading">Loading produk...</div>
+
+  <div id="product-list">
+    <!-- CARD dari JS -->
+
+    <!-- FOOTER NYATU -->
+    <div class="footer">
+      © 2026 FF Store
+    </div>
   </div>
+
 </div>
 
-<!-- ISI -->
-<div id="loading">Loading produk...</div>
-<div id="product-list" class="grid">
-</div>
-
-<footer class="footer">© 2026 FF Store</footer>
-  
 <script src="script.js"></script>
 <script>
-  loadProducts(false);
+loadProducts(false);
 </script>
 </body>
 </html>
