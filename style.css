@@ -17,14 +17,6 @@ body {
     #000000;
 }
 
-.title-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start; /* rata kiri ke foto */
-  position: relative;
-  top: -4px; /* 🔼 naikin judul dikit */
-}
-
 .title {
   font-size: 24px;        /* kecilin judul */
   white-space: nowrap;   /* paksa 1 baris */
@@ -62,14 +54,6 @@ footer {
   opacity: 0.6;
 }
 
-.top-fixed {
-  position: sticky;
-  top: 0;
-  background: transparent;
-  z-index: 10;
-  padding-bottom: 8px;
-}
-
 /* grid produk */
 #product-list {
   display: grid;
@@ -90,6 +74,23 @@ footer {
   justify-content: center;
   gap: 14px;
   margin-top: 20px;
+}
+
+.top-fixed {
+  position: sticky;
+  top: 0;
+  background: transparent;
+  z-index: 10;
+  padding-bottom: 8px;
+}
+
+
+.title-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* rata kiri ke foto */
+  position: relative;
+  top: -4px; /* 🔼 naikin judul dikit */
 }
 
 .profile {
