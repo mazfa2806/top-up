@@ -14,17 +14,19 @@ function loadProducts(isAdmin) {
       if (loading) loading.style.display = "none"; // sembunyikan loading
 
       data.forEach((p, i) => {
-        list.innerHTML += `
-        <div class="card">
-          <h3>${p.name}</h3>
-          <p>Harga: ${p.price}</p>
-          <p>Stok: ${p.stock}</p>
-          ${isAdmin
-            ? `<button onclick="deleteProduct(${i})">Hapus</button>`
-            : `<button onclick="buy('${p.name}',${p.price})">Beli</button>`
-          }
-        </div>`;
-      });
+  list.innerHTML += `
+  <div class="card">
+    <div class="info">
+      <h3>${p.name}</h3>
+      <p>Harga: ${p.price}</p>
+      <p>Stok: ${p.stock}</p>
+    </div>
+    ${isAdmin
+      ? `<button onclick="deleteProduct(${i})">Hapus</button>`
+      : `<button onclick="buy('${p.name}',${p.price})">Beli</button>`
+    }
+  </div>`;
+});
     })
     .catch(err => {
       if (loading) loading.style.display = "none";
