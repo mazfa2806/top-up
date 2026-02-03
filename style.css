@@ -12,6 +12,14 @@ body {
   overflow-x: hidden;   /* cegah geser horizontal */
 }
 
+.title-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* rata kiri ke foto */
+  position: relative;
+  top: -4px; /* 🔼 naikin judul dikit */
+}
+
 .title {
   font-size: 24px;        /* kecilin judul */
   white-space: nowrap;   /* paksa 1 baris */
@@ -19,6 +27,18 @@ body {
   text-overflow: ellipsis; /* aman kalau layar super kecil */
   margin: 0;
   text-shadow: 0 0 15px cyan;
+}
+
+.status {
+  font-size: 12px;
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.status.online {
+  color: #00ff6a;
 }
 
 #loading {
