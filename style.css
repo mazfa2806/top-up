@@ -7,13 +7,14 @@ body {
   font-family: Arial;
   color: white;
   text-align: center;
+  padding-bottom: 60px;
   overflow-x: hidden;
 
-  background:
-    radial-gradient(circle at top left, rgba(0, 80, 255, 0.25), transparent 40%),
-    radial-gradient(circle at top right, rgba(0, 180, 255, 0.2), transparent 45%),
-    radial-gradient(circle at bottom, rgba(0, 120, 255, 0.15), transparent 50%),
-    #000000;
+  background: radial-gradient(
+    circle at top,
+    rgba(0, 80, 150, 0.35),
+    #000 60%
+  );
 }
 
 .title {
@@ -48,14 +49,8 @@ body {
 }
 
 footer {
-  margin-top: 20px;      /* jarak dikit dari produk terakhir */
-  padding: 20px 0;
-  color: rgba(255,255,255,0.6);
-  font-size: 14px;
-  text-align: center;
-
-  background: none;     /* ❌ jangan ada background */
-  box-shadow: none;     /* ❌ jangan ada bayangan */
+  background: transparent !important;
+  box-shadow: none !important;
 }
 
 /* grid produk */
