@@ -8,23 +8,33 @@
 </head>
 <body>
 
-<div id="login-box">
+<h1 class="title">ADMIN FF STORE</h1>
+
+<!-- LOGIN -->
+<div id="login-box" class="card admin-box">
   <h2>Admin Login</h2>
   <input type="password" id="adminPass" placeholder="Password admin">
   <button onclick="login()">Login</button>
 </div>
 
+<!-- DASHBOARD -->
 <div id="admin-panel" style="display:none">
-  <h2>Dashboard Admin</h2>
 
-  <input id="pname" placeholder="Nama Produk">
-  <input id="pprice" placeholder="Harga">
-  <input id="pstock" placeholder="Stok">
-  <button onclick="addProduct()">Tambah Produk</button>
+  <div class="card admin-box">
+    <h2>Dashboard Admin</h2>
+
+    <input id="pname" placeholder="Nama Produk">
+    <input id="pprice" placeholder="Harga">
+    <input id="pstock" placeholder="Stok">
+    <button onclick="addProduct()">Tambah Produk</button>
+  </div>
 
   <div id="product-list" class="grid"></div>
-  <button onclick="logout()">Logout</button>
+
+  <button class="logout-btn" onclick="logout()">Logout</button>
 </div>
+
+<footer>© 2026 FF Store</footer>
 
 <script src="script.js"></script>
 </body>
