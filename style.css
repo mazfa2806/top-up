@@ -48,16 +48,17 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 14px;
   margin-top: 20px;
 }
 
 .profile {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%; /* bikin bulat */
+  width: 56px;      /* lebih besar dikit */
+  height: 56px;
+  border-radius: 50%;
   object-fit: cover;
   box-shadow: 0 0 10px cyan;
+  margin-left: 8px; /* geser ke kanan */
 }
 
 .title {
