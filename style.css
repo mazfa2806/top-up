@@ -57,6 +57,14 @@ footer {
   opacity: 0.6;
 }
 
+.top-fixed {
+  position: sticky;
+  top: 0;
+  background: #000;
+  z-index: 10;
+  padding-bottom: 8px;
+}
+
 /* grid produk */
 #product-list {
   display: grid;
@@ -66,6 +74,8 @@ footer {
   max-width: 100%;
   margin: 0 auto;
   margin-top: 32px;
+  max-height: calc(100vh - 180px);
+  overflow-y: auto;
 }
 
 .header {
@@ -97,6 +107,9 @@ footer {
   height: 2px;
   background: cyan;
   margin: 6px auto 0;
+  margin-top: 28px;   /* jarak dari judul */
+  margin-bottom: 12px;
+  }
 }
 /* tablet / layar besar */
 @media (min-width: 768px) {
