@@ -173,3 +173,29 @@ footer {
   cursor: pointer;
   white-space: nowrap; /* biar gak melebar */
 }
+
+.admin-box {
+  max-width: 360px;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column; /* kunci vertikal */
+  gap: 10px;              /* jarak antar item */
+}
+
+.admin-box input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  box-sizing: border-box;
+}
+
+.admin-box button {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.login-btn {
+  background: cyan;
+  font-weight: bold;
+  }
