@@ -44,6 +44,27 @@ footer {
   margin: 0 auto;
 }
 
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.profile {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%; /* bikin bulat */
+  object-fit: cover;
+  box-shadow: 0 0 10px cyan;
+}
+
+.title {
+  margin: 0;
+  text-shadow: 0 0 15px cyan;
+}
+
 /* tablet / layar besar */
 @media (min-width: 768px) {
   #product-list {
