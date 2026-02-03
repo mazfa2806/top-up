@@ -7,7 +7,6 @@ body {
   font-family: Arial;
   color: white;
   text-align: center;
-  padding-bottom: 60px;
   overflow-x: hidden;
 
   background:
@@ -18,12 +17,14 @@ body {
 }
 
 .title {
-  font-size: 24px;        /* kecilin judul */
-  white-space: nowrap;   /* paksa 1 baris */
-  overflow: hidden;
-  text-overflow: ellipsis; /* aman kalau layar super kecil */
+  font-size: 24px;
+  white-space: nowrap;
   margin: 0;
+  padding: 0;              /* ⬅️ ini penting */
+  background: none;        /* ⬅️ ini penting */
+  box-shadow: none;        /* ⬅️ buang efek kotak */
   text-shadow: 0 0 15px cyan;
+  display: inline-block;   /* ⬅️ biar glow cuma ke teks */
 }
 
 .status {
@@ -47,11 +48,14 @@ body {
 }
 
 footer {
-  background: transparent;
-  color: white;
-  margin-top: 40px;
-  padding: 10px 0;
-  opacity: 0.6;
+  margin-top: 20px;      /* jarak dikit dari produk terakhir */
+  padding: 20px 0;
+  color: rgba(255,255,255,0.6);
+  font-size: 14px;
+  text-align: center;
+
+  background: none;     /* ❌ jangan ada background */
+  box-shadow: none;     /* ❌ jangan ada bayangan */
 }
 
 /* grid produk */
@@ -123,6 +127,14 @@ footer {
   background: cyan;
   margin: 6px auto 0;  /* jarak teks ke garis */
 }
+
+/* ==== FIX HEADER CLEAN ==== */
+.header,
+.top-fixed {
+  background: none !important;
+  box-shadow: none !important;
+}
+
 /* tablet / layar besar */
 @media (min-width: 768px) {
   #product-list {
