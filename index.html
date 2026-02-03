@@ -7,7 +7,8 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  
+
+<!-- HEADER PATEN -->
 <div class="top-fixed">
   <div class="header">
     <img src="profil.jpg" class="profile">
@@ -22,15 +23,22 @@
     Price List Diamond Kami :
   </div>
 </div>
-  
+
+<!-- ISI -->
 <div id="loading">Loading produk...</div>
+
 <div id="product-list" class="grid">
-  <footer>© 2026 FF Store</footer>
+  <!-- produk dari JS masuk ke sini -->
+
+  <!-- footer jadi card terakhir -->
+  <div class="card footer-card">
+    © 2026 FF Store
+  </div>
 </div>
 
 <script src="script.js"></script>
 <script>
-loadProducts(false);
+  loadProducts(false);
 </script>
 </body>
 </html>
