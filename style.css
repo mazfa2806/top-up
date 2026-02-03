@@ -5,11 +5,16 @@
 
 body {
   font-family: Arial;
-  background: #000000;
   color: white;
   text-align: center;
-  padding-bottom: 60px; /* space untuk footer */
-  overflow-x: hidden;   /* cegah geser horizontal */
+  padding-bottom: 60px;
+  overflow-x: hidden;
+
+  background:
+    radial-gradient(circle at top left, rgba(0, 80, 255, 0.25), transparent 40%),
+    radial-gradient(circle at top right, rgba(0, 180, 255, 0.2), transparent 45%),
+    radial-gradient(circle at bottom, rgba(0, 120, 255, 0.15), transparent 50%),
+    #000000;
 }
 
 .title-wrap {
