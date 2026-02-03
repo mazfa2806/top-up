@@ -64,7 +64,7 @@ footer {
   padding: 0 4px;
   max-width: 100%;
   margin: 0 auto;
-  margin-top: 32px;
+  margin-top: 12px;
   max-height: calc(100vh - 180px);
   overflow-y: auto;
   background: transparent;
@@ -76,15 +76,16 @@ footer {
   align-items: center;
   justify-content: center;
   gap: 14px;
-  margin-top: 20px;
+  padding-top: 12px;
 }
 
 .top-fixed {
   position: sticky;
   top: 0;
-  background: transparent;
-  z-index: 10;
-  padding-bottom: 8px;
+  z-index: 99;
+  background: rgba(0, 0, 0, 0.6); /* transparan dikit */
+  backdrop-filter: blur(6px);    /* biar cakep */
+  padding-bottom: 10px;
 }
 
 
