@@ -135,23 +135,20 @@ async function addProduct() {
   if (!name || !price) return alert("Nama & harga wajib diisi");
 
   try {
-    // Kirim sebagai form-urlencoded (lebih aman untuk Apps Script)
-    const body = new URLSearchParams({
-      action: "add",
-      key: ADMIN_KEY,
+    const url = `${API_URL}?action=add&key=${encodeURIComponent(ADMIN_KEY)}`;
 
-      // kirim dua versi key biar kompatibel dengan script lama kamu
-      name: name,
-      price: String(price),
-      stock: String(stock),
-
-      Produk: name,
-      Harga: String(price),
-      Stok: String(stock),
+    // Body dikirim TANPA headers biar ga kena preflight CORS
+    const res = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        // kirim variasi nama field biar kompatibel dengan script apa pun
+        name, price, stock,
+        Produk: name,
+        Harga: price,
+        Stok: stock
+      }),
     });
 
-    const res = await fetch(API_URL, { method: "POST", body });
-    // beberapa Apps Script balikin text/html -> coba aman
     const txt = await res.text();
     console.log("ADD response:", txt);
 
@@ -161,8 +158,8 @@ async function addProduct() {
 
     loadProducts(true);
   } catch (e) {
-    console.error(e);
-    alert("Gagal tambah produk (cek Console)");
+    console.error("ADD error:", e);
+    alert("Gagal tambah produk (lihat Console)");
   }
 }
 
@@ -170,20 +167,22 @@ async function deleteProduct(i) {
   if (!confirm("Hapus produk ini?")) return;
 
   try {
-    const body = new URLSearchParams({
-      action: "delete",
-      key: ADMIN_KEY,
-      index: String(i),
+    const url = `${API_URL}?action=delete&key=${encodeURIComponent(ADMIN_KEY)}`;
+
+    const res = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        index: i
+      }),
     });
 
-    const res = await fetch(API_URL, { method: "POST", body });
     const txt = await res.text();
     console.log("DELETE response:", txt);
 
     loadProducts(true);
   } catch (e) {
-    console.error(e);
-    alert("Gagal hapus produk (cek Console)");
+    console.error("DELETE error:", e);
+    alert("Gagal hapus produk (lihat Console)");
   }
 }
 
