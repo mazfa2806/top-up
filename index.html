@@ -1,68 +1,135 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta charset="UTF-8">
-  <title>Admin MAZFA Store</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MAZFA OFFICIAL • Store</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
+  <div class="bg" aria-hidden="true"></div>
 
-<h1 class="title page-title">ADMIN MAZFA STORE</h1>
+  <!-- HEADER -->
+  <header class="header">
+    <div class="container header-inner">
+      <div class="brand">
+        <img class="brand-avatar" src="SRC_PROFIL_LINK_KAMU" alt="MAZFA" loading="lazy" />
+        <div class="brand-text">
+          <div class="brand-title">MAZFA OFFICIAL</div>
+          <div class="brand-sub"><span class="dot"></span> Online • Fast response</div>
+        </div>
+      </div>
 
-<!-- LOGIN -->
-<div id="login-box" class="card admin-box">
-  <h2>Admin Login</h2>
-  <input type="password" id="adminPass" placeholder="Password admin">
-  <button class="login-btn" onclick="login()">Login</button>
-</div>
+      <nav class="nav">
+        <a class="nav-link" href="#produk">Produk</a>
+        <a class="nav-cta" href="admin.html">Admin</a>
+      </nav>
+    </div>
+  </header>
 
-<!-- DASHBOARD -->
-<div id="admin-panel" style="display:none" class="admin-wrap">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-left">
+        <div class="badge-top">⚡ Premium Digital Store</div>
+        <h1 class="hero-title">Diamond FF • Panel Pterodactyl • APK Premium</h1>
+        <p class="hero-desc">
+          Pilih produk → klik <b>Beli</b> → otomatis masuk WhatsApp dengan format order rapi.
+        </p>
 
-  <!-- FORM TAMBAH -->
-  <div class="card admin-box">
-    <h2>Tambah Produk</h2>
+        <div class="hero-actions">
+          <a class="btn primary" href="#produk">Lihat Produk</a>
+          <a class="btn ghost" href="https://wa.me/6283850340631" target="_blank" rel="noopener">Chat Admin</a>
+        </div>
 
-    <select id="pcat" class="admin-select">
-      <option value="ff">Diamond Free Fire</option>
-      <option value="panel">Panel Pterodactyl</option>
-      <option value="apk">APK Premium</option>
-      <option value="lain">Lainnya</option>
-    </select>
+        <div class="trust">
+          <div class="trust-item">✓ Kategori rapi</div>
+          <div class="trust-item">✓ Harga format Rupiah</div>
+          <div class="trust-item">✓ Stok tampil</div>
+          <div class="trust-item">✓ Order WA otomatis</div>
+        </div>
+      </div>
 
-    <input id="pname" placeholder="Nama Produk">
-    <input id="pprice" placeholder="Harga (angka)">
-    <input id="pstock" placeholder="Stok">
+      <div class="hero-right">
+        <div class="glass-card">
+          <div class="glass-title">Kategori</div>
+          <div class="glass-line">• Diamond Free Fire</div>
+          <div class="glass-line">• Panel Pterodactyl</div>
+          <div class="glass-line">• APK Premium</div>
+          <div class="glass-sep"></div>
+          <div class="glass-mini">Gunakan filter & search untuk cepat.</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <button onclick="addProduct()">Tambah Produk</button>
-  </div>
+  <!-- MAIN -->
+  <main class="container layout" id="produk">
 
-  <!-- FILTER -->
-  <div class="card admin-box">
-    <h2>Filter Produk</h2>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="side-card">
+        <div class="side-title">Kategori</div>
+        <div id="catChips" class="chips"></div>
+      </div>
 
-    <input id="adminSearch" placeholder="Cari produk (admin)...">
+      <div class="side-card">
+        <div class="side-title">Info Toko</div>
+        <div class="side-text">Fast response • Harga jelas • Order via WhatsApp</div>
+        <a class="btn small" href="https://wa.me/6283850340631" target="_blank" rel="noopener">Chat WhatsApp</a>
+      </div>
+    </aside>
 
-    <select id="adminCategory" class="admin-select">
-      <option value="all">Semua Kategori</option>
-      <option value="ff">Diamond Free Fire</option>
-      <option value="panel">Panel Pterodactyl</option>
-      <option value="apk">APK Premium</option>
-      <option value="lain">Lainnya</option>
-    </select>
+    <!-- CONTENT -->
+    <section class="content">
+      <div class="toolbar">
 
-    <button onclick="adminResetFilter()">Reset Filter</button>
-  </div>
+        <div class="search">
+          <span class="ic" aria-hidden="true">🔎</span>
+          <input id="search" placeholder="Cari produk... (diamond / panel / apk)" />
+          <button id="clearSearch" class="xbtn" type="button">Reset</button>
+        </div>
 
-  <div id="loading" class="loading">Loading produk...</div>
-  <div id="product-list" class="grid"></div>
+        <div class="filter">
+          <select id="category">
+            <option value="all">Semua Kategori</option>
+            <option value="ff">Diamond Free Fire</option>
+            <option value="panel">Panel Pterodactyl</option>
+            <option value="apk">APK Premium</option>
+            <option value="lain">Lainnya</option>
+          </select>
+        </div>
 
-  <button class="logout-btn" onclick="logout()">Logout</button>
+        <div class="sort">
+          <select id="sort">
+            <option value="default">Urutkan: Default</option>
+            <option value="low">Harga terendah</option>
+            <option value="high">Harga tertinggi</option>
+            <option value="az">Nama A–Z</option>
+          </select>
+        </div>
 
-  <footer class="footer">© 2026 MAZFA OFFICIAL</footer>
-</div>
+      </div>
 
-<script src="script.js"></script>
+      <div class="meta">
+        <div id="count" class="count">Memuat…</div>
+        <div class="pill">Realtime</div>
+      </div>
+
+      <div class="panel">
+        <div id="loading" class="loading">Loading produk...</div>
+        <div id="product-list" class="grid"></div>
+      </div>
+
+      <footer class="footer">© 2026 MAZFA OFFICIAL</footer>
+    </section>
+
+  </main>
+
+  <a class="wa-float" href="https://wa.me/6283850340631" target="_blank" rel="noopener">WhatsApp</a>
+
+  <script src="script.js"></script>
+  <script>loadProducts(false);</script>
 </body>
-      </html>
+</html>
