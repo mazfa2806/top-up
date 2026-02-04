@@ -3,133 +3,112 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>MAZFA OFFICIAL • Store</title>
+  <title>MAZFA MARKET</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-  <div class="bg" aria-hidden="true"></div>
 
-  <!-- HEADER -->
-  <header class="header">
-    <div class="container header-inner">
-      <div class="brand">
-        <img class="brand-avatar" src="https://files.catbox.moe/y57j5l.jpg" alt="MAZFA" loading="lazy" />
-        <div class="brand-text">
-          <div class="brand-title">MAZFA OFFICIAL</div>
-          <div class="brand-sub"><span class="dot"></span> Online • Fast response</div>
+  <div class="fx-bg" aria-hidden="true"></div>
+
+  <!-- Top Nav -->
+  <header class="navx">
+    <div class="navx-inner">
+      <div class="navx-left">
+        <img class="navx-avatar" src="PROFILE_URL" alt="MAZFA" />
+        <div class="navx-meta">
+          <div class="navx-title">MAZFA MARKET</div>
+          <div class="navx-sub"><span class="navx-dot"></span> Online • Fast response</div>
         </div>
       </div>
 
-      <nav class="nav">
-        <a class="nav-link" href="#produk">Produk</a>
-        <a class="nav-cta" href="admin.html">Admin</a>
-      </nav>
+      <div class="navx-right">
+        <a class="navx-link" href="#produk">Katalog</a>
+        <a class="navx-btn" href="admin.html">Admin</a>
+      </div>
     </div>
   </header>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="container hero-inner">
-      <div class="hero-left">
-        <div class="badge-top">⚡ Premium Digital Store</div>
-        <h1 class="hero-title">Diamond FF • Panel Pterodactyl • APK Premium</h1>
-        <p class="hero-desc">
-          Pilih produk → klik <b>Beli</b> → otomatis masuk WhatsApp dengan format order rapi.
+  <!-- Hero -->
+  <section class="heroX">
+    <div class="heroX-inner">
+      <div class="heroX-left">
+        <div class="heroX-badge">⚡ Premium Digital Goods</div>
+        <h1 class="heroX-h1">Diamond FF • Panel Pterodactyl • APK Premium</h1>
+        <p class="heroX-p">
+          Klik <b>Beli</b> → WhatsApp terbuka otomatis dengan format order. Harga pakai Rupiah, stok keliatan.
         </p>
 
-        <div class="hero-actions">
-          <a class="btn primary" href="#produk">Lihat Produk</a>
-          <a class="btn ghost" href="https://wa.me/6283850340631" target="_blank" rel="noopener">Chat Admin</a>
+        <div class="heroX-actions">
+          <a class="btnX primary" href="#produk">Lihat Produk</a>
+          <a class="btnX ghost" href="https://wa.me/6283850340631" target="_blank" rel="noopener">Chat Admin</a>
         </div>
 
-        <div class="trust">
-          <div class="trust-item">✓ Kategori rapi</div>
-          <div class="trust-item">✓ Harga format Rupiah</div>
-          <div class="trust-item">✓ Stok tampil</div>
-          <div class="trust-item">✓ Order WA otomatis</div>
+        <div class="heroX-stats">
+          <div class="statX">✓ Realtime</div>
+          <div class="statX">✓ Fast</div>
+          <div class="statX">✓ Premium UI</div>
+          <div class="statX">✓ WhatsApp Order</div>
         </div>
       </div>
 
-      <div class="hero-right">
-        <div class="glass-card">
-          <div class="glass-title">Kategori</div>
-          <div class="glass-line">• Diamond Free Fire</div>
-          <div class="glass-line">• Panel Pterodactyl</div>
-          <div class="glass-line">• APK Premium</div>
-          <div class="glass-sep"></div>
-          <div class="glass-mini">Gunakan filter & search untuk cepat.</div>
+      <div class="heroX-right">
+        <div class="cardX">
+          <div class="cardX-title">Cara Order</div>
+          <ol class="cardX-list">
+            <li>Pilih produk</li>
+            <li>Klik Beli</li>
+            <li>Konfirmasi admin</li>
+          </ol>
+          <div class="cardX-line"></div>
+          <div class="cardX-note">Gunakan filter kategori & search biar cepat.</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- MAIN -->
-  <main class="container layout" id="produk">
+    <!-- Catalog -->
+  <main class="wrapX" id="produk">
+    <section class="catalogX">
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-      <div class="side-card">
-        <div class="side-title">Kategori</div>
-        <div id="catChips" class="chips"></div>
-      </div>
+      <!-- Tabs Kategori (chips) -->
+      <div class="tabsX" id="catChips"></div>
 
-      <div class="side-card">
-        <div class="side-title">Info Toko</div>
-        <div class="side-text">Fast response • Harga jelas • Order via WhatsApp</div>
-        <a class="btn small" href="https://wa.me/6283850340631" target="_blank" rel="noopener">Chat WhatsApp</a>
-      </div>
-    </aside>
-
-    <!-- CONTENT -->
-    <section class="content">
-      <div class="toolbar">
-
-        <div class="search">
-          <span class="ic" aria-hidden="true">🔎</span>
-          <input id="search" placeholder="Cari produk... (diamond / panel / apk)" />
-          <button id="clearSearch" class="xbtn" type="button">Reset</button>
+      <!-- Toolbar -->
+      <div class="toolsX">
+        <div class="searchX">
+          <span class="icX">🔎</span>
+          <input id="search" type="text" placeholder="Cari: diamond / panel / apk ..." />
+          <button id="clearSearch" type="button" class="miniBtnX">Reset</button>
         </div>
 
-        <div class="filter">
-          <select id="category">
-            <option value="all">Semua Kategori</option>
-            <option value="ff">Diamond Free Fire</option>
-            <option value="panel">Panel Pterodactyl</option>
-            <option value="apk">APK Premium</option>
-            <option value="lain">Lainnya</option>
-          </select>
-        </div>
-
-        <div class="sort">
-          <select id="sort">
-            <option value="default">Urutkan: Default</option>
-            <option value="low">Harga terendah</option>
-            <option value="high">Harga tertinggi</option>
-            <option value="az">Nama A–Z</option>
-          </select>
-        </div>
-
+        <select id="sort" class="selectX">
+          <option value="default">Urutkan: Default</option>
+          <option value="low">Harga terendah</option>
+          <option value="high">Harga tertinggi</option>
+          <option value="az">Nama A–Z</option>
+        </select>
       </div>
 
-      <div class="meta">
-        <div id="count" class="count">Memuat…</div>
-        <div class="pill">Realtime</div>
+      <div class="metaX">
+        <div id="count" class="countX">Memuat…</div>
+        <div class="pillX">Secure UI</div>
       </div>
 
-      <div class="panel">
-        <div id="loading" class="loading">Loading produk...</div>
-        <div id="product-list" class="grid"></div>
+      <div class="panelX">
+        <div id="loading" class="loadingX">Loading produk...</div>
+        <div id="product-list" class="gridX"></div>
       </div>
 
-      <footer class="footer">© 2026 MAZFA OFFICIAL</footer>
+      <footer class="footX">© 2026 MAZFA MARKET</footer>
     </section>
-
   </main>
 
-  <a class="wa-float" href="https://wa.me/6283850340631" target="_blank" rel="noopener">WhatsApp</a>
+  <a class="floatWA" href="https://wa.me/6283850340631" target="_blank" rel="noopener">WhatsApp</a>
 
   <script src="script.js"></script>
-  <script>loadProducts(false);</script>
+  <script>
+    // load store
+    if (typeof loadProducts === "function") loadProducts(false);
+  </script>
 </body>
 </html>
