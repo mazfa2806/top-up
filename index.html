@@ -1,44 +1,44 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>MARKET MAZFA</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
-
-<!-- HEADER PATEN -->
-<div class="top-fixed">
-  <div class="header">
-    <img src="profil.jpg" class="profile">
-    <div class="title-wrap">
-      <h1 class="title">MAZFA OFFICIAL</h1>
-      <div class="status online">● Online</div>
+  <!-- HEADER PATEN -->
+  <div class="top-fixed">
+    <div class="header">
+      <img
+        src="profil.jpg"
+        class="profile"
+        alt="Foto profil MAZFA"
+        onerror="this.style.display='none';"
+      />
+      <div class="title-wrap">
+        <h1 class="title">MAZFA OFFICIAL</h1>
+        <div class="status online" aria-label="Status online">● Online</div>
+      </div>
     </div>
-  </div>
-  <div class="section-title">Price List Diamond Kami</div>
-</div>
 
-<!-- DASHBOARD -->
-<div class="dashboard">
-
-  <div id="loading">Loading produk...</div>
-
-  <div id="product-list">
-    <!-- CARD dari JS -->
-
-    <!-- FOOTER NYATU -->
-    <div class="footer">
-      © 2026 FF Store
-    </div>
+    <div class="section-title">Price List Diamond Kami</div>
   </div>
 
-</div>
+  <!-- DASHBOARD -->
+  <main class="dashboard">
+    <div id="loading">Loading produk...</div>
 
-<script src="script.js"></script>
-<script>
-loadProducts(false);
-</script>
+    <!-- ini khusus produk doang -->
+    <div id="product-list" aria-live="polite"></div>
+
+    <!-- FOOTER dipisah biar aman dari render JS -->
+    <footer class="footer">
+      © <span id="year"></span> FF Store
+    </footer>
+  </main>
+
+  <script src="script.js" defer></script>
 </body>
 </html>
