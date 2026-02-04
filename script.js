@@ -369,3 +369,23 @@ function adminResetFilter() {
   if ($("adminCategory")) $("adminCategory").value = "all";
   renderAdmin();
 }
+/* ===== TOGGLE HAMBURGER MENU ===== */
+
+function toggleMenu(){
+  const menu = document.getElementById("navMenu");
+  if(!menu) return;
+
+  menu.classList.toggle("show");
+}
+
+/* Tutup menu kalau klik luar */
+document.addEventListener("click", function(e){
+  const menu = document.getElementById("navMenu");
+  const btn = document.querySelector(".menu-btn");
+
+  if(!menu || !btn) return;
+
+  if(!menu.contains(e.target) && !btn.contains(e.target)){
+    menu.classList.remove("show");
+  }
+});
