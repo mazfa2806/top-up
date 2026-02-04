@@ -122,42 +122,47 @@ function logout() {
 }
 
 async function addProduct() {
-  const name = document.getElementById("pname");
-  const price = document.getElementById("pprice");
-  const stock = document.getElementById("pstock");
+  const nameEl = document.getElementById("pname");
+  const priceEl = document.getElementById("pprice");
+  const stockEl = document.getElementById("pstock");
 
-  if (!name || !price || !stock) {
-    alert("Form belum lengkap");
-    return;
-  }
+  if (!nameEl || !priceEl || !stockEl) return alert("Form admin tidak lengkap");
 
-  if (!name.value || !price.value) {
-    alert("Nama & harga wajib diisi");
-    return;
-  }
+  const name = nameEl.value.trim();
+  const price = Number(priceEl.value || 0);
+  const stock = Number(stockEl.value || 0);
+
+  if (!name || !price) return alert("Nama & harga wajib diisi");
 
   try {
-    await fetch(API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        key: ADMIN_KEY,
-        action: "add",
-        name: name.value,
-        price: Number(price.value),
-        stock: Number(stock.value),
-      }),
+    // Kirim sebagai form-urlencoded (lebih aman untuk Apps Script)
+    const body = new URLSearchParams({
+      action: "add",
+      key: ADMIN_KEY,
+
+      // kirim dua versi key biar kompatibel dengan script lama kamu
+      name: name,
+      price: String(price),
+      stock: String(stock),
+
+      Produk: name,
+      Harga: String(price),
+      Stok: String(stock),
     });
 
-    name.value = "";
-    price.value = "";
-    stock.value = "";
+    const res = await fetch(API_URL, { method: "POST", body });
+    // beberapa Apps Script balikin text/html -> coba aman
+    const txt = await res.text();
+    console.log("ADD response:", txt);
+
+    nameEl.value = "";
+    priceEl.value = "";
+    stockEl.value = "";
 
     loadProducts(true);
   } catch (e) {
-    alert("Gagal tambah produk");
+    console.error(e);
+    alert("Gagal tambah produk (cek Console)");
   }
 }
 
@@ -165,21 +170,20 @@ async function deleteProduct(i) {
   if (!confirm("Hapus produk ini?")) return;
 
   try {
-    await fetch(API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        key: ADMIN_KEY,
-        action: "delete",
-        index: i,
-      }),
+    const body = new URLSearchParams({
+      action: "delete",
+      key: ADMIN_KEY,
+      index: String(i),
     });
+
+    const res = await fetch(API_URL, { method: "POST", body });
+    const txt = await res.text();
+    console.log("DELETE response:", txt);
 
     loadProducts(true);
   } catch (e) {
-    alert("Gagal hapus produk");
+    console.error(e);
+    alert("Gagal hapus produk (cek Console)");
   }
 }
 
