@@ -2,32 +2,8 @@ const API_URL = "https://script.google.com/macros/s/AKfycbwHxg_ir21pRQKVXi6q66ya
 const ADMIN_KEY = "mazfa2806";
 
 let PRODUCTS = [];
+let ACTIVE_CAT = "all";
 
-// ===== Helpers =====
-function formatIDR(val) {
-  const n = Number(String(val).replace(/[^\d.-]/g, "")) || 0;
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    maximumFractionDigits: 0,
-  }).format(n);
-}
-function escapeHTML(str) {
-  return String(str).replace(/[&<>"']/g, m => ({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-  }[m]));
-}
-function escapeJS(str) {
-  return String(str).replace(/'/g, "\\'");
-}
-function badgeFor(stockVal){
-  const s = Number(stockVal) || 0;
-  if (s <= 0) return { cls:"sold", text:"Habis" };
-  if (s <= 5) return { cls:"limited", text:"Limited" };
-  return { cls:"ready", text:"Ready" };
-}
-
-// ===== Load & Render =====
 function loadProducts(isAdmin) {
   const loading = document.getElementById("loading");
   const list = document.getElementById("product-list");
@@ -47,10 +23,16 @@ function loadProducts(isAdmin) {
       }
 
       PRODUCTS = data;
-      renderProducts(isAdmin, PRODUCTS);
 
-      // aktifkan search hanya di index (kalau elemennya ada)
-      setupSearchIfAny(isAdmin);
+      // render awal
+      renderProducts(isAdmin, applyFilters(PRODUCTS, isAdmin));
+
+      // setup fitur index saja (tidak ganggu admin)
+      if (!isAdmin) {
+        buildCategoryChips();
+        bindSearchSort();
+        updateCount(applyFilters(PRODUCTS, false).length);
+      }
     })
     .catch(err => {
       if (loading) loading.style.display = "none";
@@ -59,42 +41,7 @@ function loadProducts(isAdmin) {
     });
 }
 
-function renderProducts(isAdmin, items) {
-  const list = document.getElementById("product-list");
-  if (!list) return;
-
-  let html = "";
-
-  items.forEach((p, i) => {
-    const name = p?.name ?? "";
-    const priceRaw = p?.price ?? "";
-    const stock = p?.stock ?? "";
-
-    const priceText = isAdmin ? escapeHTML(priceRaw) : formatIDR(priceRaw);
-    const badge = badgeFor(stock);
-
-    html += `
-      <div class="card">
-        <div class="info">
-          <h3>${escapeHTML(name)}</h3>
-          <p>Harga: ${priceText}</p>
-          <p>Stok: ${escapeHTML(stock)}</p>
-          ${!isAdmin ? `<div class="badge ${badge.cls}">${badge.text}</div>` : ``}
-        </div>
-
-        ${
-          isAdmin
-            ? `<button onclick="deleteProduct(${i})">Hapus</button>`
-            : `<button onclick="buy('${escapeJS(name)}','${escapeJS(priceText)}')">Beli</button>`
-        }
-      </div>
-    `;
-  });
-
-  list.innerHTML = html || `<div style="padding:12px;color:rgba(230,245,255,.65)">Tidak ada produk.</div>`;
-}
-
-// ===== WhatsApp =====
+/* ========= BUY ========= */
 function buy(name, priceText) {
   const waNumber = "6283850340631";
   const text = `Halo admin, saya mau beli:\nProduk: ${name}\nHarga: ${priceText}`;
@@ -102,7 +49,7 @@ function buy(name, priceText) {
   window.open(url, "_blank");
 }
 
-// ===== Admin =====
+/* ========= ADMIN (biarkan sama) ========= */
 function login() {
   const passEl = document.getElementById("adminPass");
   const pass = passEl ? passEl.value : "";
@@ -113,10 +60,9 @@ function login() {
     if (loginBox) loginBox.style.display = "none";
     if (panel) panel.style.display = "block";
     loadProducts(true);
-  } else {
-    alert("Password salah");
-  }
+  } else alert("Password salah");
 }
+
 function logout() { location.reload(); }
 
 function addProduct() {
@@ -135,23 +81,12 @@ function addProduct() {
     body: JSON.stringify({
       key: ADMIN_KEY,
       action: "add",
-
-      // format produk
-      name: name,
-      price: price,
-      stock: stock,
-
-      // fallback kalau backend lama
+      name, price, stock,
       Produk: name,
       Harga: price,
       Stok: stock
     })
-  })
-    .then(() => loadProducts(true))
-    .catch(err => {
-      console.error(err);
-      alert("Gagal tambah produk");
-    });
+  }).then(() => loadProducts(true));
 }
 
 function deleteProduct(i) {
@@ -162,37 +97,151 @@ function deleteProduct(i) {
       action: "delete",
       index: i
     })
-  })
-    .then(() => loadProducts(true))
-    .catch(err => {
-      console.error(err);
-      alert("Gagal hapus produk");
-    });
+  }).then(() => loadProducts(true));
 }
 
-// ===== Search (Index only) =====
-function setupSearchIfAny(isAdmin){
-  if (isAdmin) return; // jangan ganggu admin
+/* ========= INDEX ENHANCEMENTS ========= */
 
-  const search = document.getElementById("search");
-  const clearBtn = document.getElementById("clearSearch");
-  if (!search || !clearBtn) return;
+function formatIDR(val) {
+  const n = Number(String(val).replace(/[^\d.-]/g, "")) || 0;
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    maximumFractionDigits: 0,
+  }).format(n);
+}
 
-  // biar ga dobel listener kalau loadProducts dipanggil ulang
-  if (search.dataset.bound === "1") return;
-  search.dataset.bound = "1";
+function badgeFor(stockVal){
+  const s = Number(stockVal) || 0;
+  if (s <= 0) return { cls:"sold", text:"Habis" };
+  if (s <= 5) return { cls:"limited", text:"Limited" };
+  return { cls:"ready", text:"Ready" };
+}
+
+// Kategori otomatis dari nama (kalau belum ada category field)
+function guessCategory(name){
+  const n = String(name || "").toLowerCase();
+  if (n.includes("diamond")) return "diamond";
+  if (n.includes("top up") || n.includes("topup")) return "topup";
+  if (n.includes("voucher")) return "voucher";
+  return "lainnya";
+}
+
+function applyFilters(items, isAdmin){
+  if (isAdmin) return items;
+
+  const qEl = document.getElementById("search");
+  const sortEl = document.getElementById("sort");
+  const q = (qEl?.value || "").toLowerCase().trim();
+  const sort = sortEl?.value || "default";
+
+  let out = items.slice();
+
+  // category filter
+  if (ACTIVE_CAT !== "all") {
+    out = out.filter(p => guessCategory(p?.name) === ACTIVE_CAT);
+  }
+
+  // search
+  if (q) {
+    out = out.filter(p => String(p?.name || "").toLowerCase().includes(q));
+  }
+
+  // sort
+  const priceNum = (p) => Number(String(p?.price ?? 0).replace(/[^\d.-]/g,"")) || 0;
+  if (sort === "low") out.sort((a,b) => priceNum(a) - priceNum(b));
+  if (sort === "high") out.sort((a,b) => priceNum(b) - priceNum(a));
+  if (sort === "az") out.sort((a,b) => String(a?.name||"").localeCompare(String(b?.name||"")));
+
+  return out;
+}
+
+function renderProducts(isAdmin, items) {
+  const list = document.getElementById("product-list");
+  if (!list) return;
+
+  let html = "";
+  items.forEach((p, i) => {
+    const name = p?.name ?? "";
+    const priceRaw = p?.price ?? "";
+    const stock = p?.stock ?? "";
+
+    const priceText = isAdmin ? escapeHTML(priceRaw) : formatIDR(priceRaw);
+    const b = badgeFor(stock);
+
+    html += `
+      <div class="card">
+        <div class="info">
+          <h3>${escapeHTML(name)}</h3>
+          <p>Harga: ${isAdmin ? escapeHTML(priceRaw) : priceText}</p>
+          <p>Stok: ${escapeHTML(stock)}</p>
+          ${!isAdmin ? `<div class="badge ${b.cls}">${b.text}</div>` : ``}
+        </div>
+        ${
+          isAdmin
+            ? `<button onclick="deleteProduct(${i})">Hapus</button>`
+            : `<button onclick="buy('${escapeJS(name)}','${escapeJS(priceText)}')">Beli</button>`
+        }
+      </div>
+    `;
+  });
+
+  list.innerHTML = html || `<div class="loading">Tidak ada produk.</div>`;
+}
+
+function buildCategoryChips(){
+  const wrap = document.getElementById("catChips");
+  if (!wrap) return;
+
+  const cats = ["all","diamond","topup","voucher","lainnya"];
+  wrap.innerHTML = cats.map(c => `
+    <button class="chip-btn ${c===ACTIVE_CAT?'active':''}" type="button" data-cat="${c}">
+      ${c === "all" ? "All" : c}
+    </button>
+  `).join("");
+
+  wrap.querySelectorAll("[data-cat]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      ACTIVE_CAT = btn.dataset.cat || "all";
+      buildCategoryChips();
+      const filtered = applyFilters(PRODUCTS, false);
+      renderProducts(false, filtered);
+      updateCount(filtered.length);
+    });
+  });
+}
+
+function bindSearchSort(){
+  const qEl = document.getElementById("search");
+  const clearEl = document.getElementById("clearSearch");
+  const sortEl = document.getElementById("sort");
+  if (!qEl || !sortEl || !clearEl) return;
+
+  if (qEl.dataset.bound === "1") return;
+  qEl.dataset.bound = "1";
 
   const apply = () => {
-    const q = (search.value || "").toLowerCase().trim();
-    const filtered = !q
-      ? PRODUCTS
-      : PRODUCTS.filter(p => String(p?.name || "").toLowerCase().includes(q));
+    const filtered = applyFilters(PRODUCTS, false);
     renderProducts(false, filtered);
+    updateCount(filtered.length);
   };
 
-  search.addEventListener("input", apply);
-  clearBtn.addEventListener("click", () => {
-    search.value = "";
-    apply();
-  });
-      }
+  qEl.addEventListener("input", apply);
+  sortEl.addEventListener("change", apply);
+  clearEl.addEventListener("click", () => { qEl.value=""; apply(); });
+}
+
+function updateCount(n){
+  const el = document.getElementById("count");
+  if (el) el.textContent = `Menampilkan ${n} produk`;
+}
+
+/* ========= escape helpers ========= */
+function escapeHTML(str) {
+  return String(str).replace(/[&<>"']/g, m => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[m]));
+}
+function escapeJS(str) {
+  return String(str).replace(/'/g, "\\'");
+}
