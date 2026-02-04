@@ -1,48 +1,88 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MARKET MAZFA</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MAZFA OFFICIAL</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body>
 
-  <!-- HEADER PATEN -->
-  <div class="top-fixed">
-    <div class="header">
-      <!-- kalau profil pakai link, ganti src ke link kamu -->
-      <img src="https://files.catbox.moe/y57j5l.jpg" class="profile" alt="Profil MAZFA" />
-      <div class="title-wrap">
-        <h1 class="title">MAZFA OFFICIAL</h1>
-        <div class="status online">● Online</div>
+<body>
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <img
+          src="https://files.catbox.moe/y57j5l.jpg"
+          class="brand-avatar"
+          alt="Profil MAZFA"
+          loading="lazy"
+        />
+        <div class="brand-text">
+          <div class="brand-title">MAZFA OFFICIAL</div>
+          <div class="brand-sub">
+            <span class="dot"></span>
+            Online • Fast response
+          </div>
+        </div>
+      </div>
+
+      <a class="top-cta" href="admin.html">Admin</a>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="hero-badge">✨ Premium Diamond Market</div>
+      <h1 class="hero-title">Price List Diamond</h1>
+      <p class="hero-desc">
+        Pilih paket, klik <b>Beli</b>, langsung masuk WhatsApp dengan format order otomatis.
+      </p>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-num">✓</div>
+          <div class="stat-text">Order cepat</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">✓</div>
+          <div class="stat-text">Harga jelas</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">✓</div>
+          <div class="stat-text">Stok tampil</div>
+        </div>
       </div>
     </div>
-    <div class="section-title">Price List Diamond Kami</div>
-  </div>
+  </header>
 
-  <!-- DASHBOARD -->
-  <div class="dashboard">
-    <div id="loading">Loading produk...</div>
-    <div id="product-list"></div>
+  <!-- CONTENT -->
+  <main class="page">
+    <section class="section-head">
+      <div>
+        <div class="section-title">Daftar Produk</div>
+        <div class="section-sub">Scroll untuk lihat semua paket.</div>
+      </div>
+      <div class="chip">Update realtime</div>
+    </section>
 
-    <div class="footer">
-      © 2026 FF Store
+    <div class="panel">
+      <div id="loading" class="loading">Loading produk...</div>
+
+      <!-- Penting: id tetap sama untuk JS -->
+      <div id="product-list" class="product-grid"></div>
     </div>
-  </div>
 
-  <!-- penting: defer biar JS nunggu DOM -->
-  <script src="script.js" defer></script>
+    <footer class="footer">
+      © 2026 MAZFA Store • Powered by WhatsApp
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
   <script>
-    // panggil setelah DOM siap + script.js sudah keload (defer)
-    document.addEventListener("DOMContentLoaded", function () {
-      if (typeof loadProducts === "function") {
-        loadProducts(false);
-      } else {
-        console.error("loadProducts tidak ditemukan (cek script.js)");
-      }
-    });
+    // tetap panggil seperti sebelumya biar tidak rusak
+    loadProducts(false);
   </script>
-
 </body>
-</html>
+  </html>
