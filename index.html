@@ -3,14 +3,17 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>MAZFA OFFICIAL</title>
+  <title>MAZFA OFFICIAL • Diamond Market</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-  <!-- TOP BAR -->
+  <!-- Ambient -->
+  <div class="bg-orbs" aria-hidden="true"></div>
+
+  <!-- Topbar -->
   <div class="topbar">
-    <div class="topbar-inner">
+    <div class="container topbar-inner">
       <div class="brand">
         <img
           src="https://files.catbox.moe/y57j5l.jpg"
@@ -20,68 +23,164 @@
         />
         <div class="brand-text">
           <div class="brand-title">MAZFA OFFICIAL</div>
-          <div class="brand-sub">
-            <span class="dot"></span>
-            Online • Fast response
-          </div>
+          <div class="brand-sub"><span class="dot"></span> Online • Fast response</div>
         </div>
       </div>
 
-      <a class="top-cta" href="admin.html">Admin</a>
+      <div class="topbar-actions">
+        <a class="top-pill" href="#produk">Produk</a>
+        <a class="top-pill" href="#cara">Cara Order</a>
+        <a class="top-cta" href="admin.html">Admin</a>
+      </div>
     </div>
   </div>
 
-  <!-- HERO -->
+  <!-- Hero -->
   <header class="hero">
-    <div class="hero-inner">
-      <div class="hero-badge">✨ Premium Diamond Market</div>
-      <h1 class="hero-title">Price List Diamond</h1>
-      <p class="hero-desc">
-        Pilih paket, klik <b>Beli</b>, langsung masuk WhatsApp dengan format order otomatis.
-      </p>
+    <div class="container hero-inner">
+      <div class="hero-left">
+        <div class="hero-badge">⚡ Premium Diamond Market</div>
+        <h1 class="hero-title">
+          Harga Jelas. Order Cepat.
+          <span class="hero-glow">Terlihat Mahal.</span>
+        </h1>
+        <p class="hero-desc">
+          Pilih paket diamond, klik <b>Beli</b>, otomatis masuk WhatsApp dengan format order.
+        </p>
 
-      <div class="hero-stats">
-        <div class="stat">
-          <div class="stat-num">✓</div>
-          <div class="stat-text">Order cepat</div>
+        <div class="hero-cta">
+          <a class="btn primary" href="#produk">Lihat Produk</a>
+          <a class="btn ghost" href="#faq">FAQ</a>
         </div>
-        <div class="stat">
-          <div class="stat-num">✓</div>
-          <div class="stat-text">Harga jelas</div>
+
+        <div class="trustbar">
+          <div class="trust">✓ Real-time list</div>
+          <div class="trust">✓ Fast response</div>
+          <div class="trust">✓ Stok terlihat</div>
+          <div class="trust">✓ Format order rapi</div>
         </div>
-        <div class="stat">
-          <div class="stat-num">✓</div>
-          <div class="stat-text">Stok tampil</div>
+      </div>
+
+      <div class="hero-right">
+        <div class="hero-card">
+          <div class="hero-card-title">🔥 Highlight</div>
+          <div class="hero-card-line">• Tampilan premium digital glow</div>
+          <div class="hero-card-line">• Tombol beli langsung WA</div>
+          <div class="hero-card-line">• Admin tambah/hapus produk</div>
+          <div class="hero-card-sep"></div>
+          <div class="hero-card-mini">Scroll ke bawah untuk lihat list produk.</div>
+        </div>
+
+        <div class="hero-minirow">
+          <div class="mini">
+            <div class="mini-top">Status</div>
+            <div class="mini-big">Online</div>
+          </div>
+          <div class="mini">
+            <div class="mini-top">Update</div>
+            <div class="mini-big">Live</div>
+          </div>
         </div>
       </div>
     </div>
   </header>
 
-  <!-- CONTENT -->
-  <main class="page">
-    <section class="section-head">
-      <div>
-        <div class="section-title">Daftar Produk</div>
-        <div class="section-sub">Scroll untuk lihat semua paket.</div>
+  <!-- Steps -->
+  <section class="section" id="cara">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Cara Order</div>
+          <div class="section-title">3 langkah, beres.</div>
+        </div>
       </div>
-      <div class="chip">Update realtime</div>
-    </section>
 
-    <div class="panel">
-      <div id="loading" class="loading">Loading produk...</div>
-
-      <!-- Penting: id tetap sama untuk JS -->
-      <div id="product-list" class="product-grid"></div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-title">Pilih paket</div>
+          <div class="step-desc">Cari diamond yang kamu butuhkan.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-title">Klik Beli</div>
+          <div class="step-desc">Otomatis masuk WhatsApp dengan teks.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-title">Proses cepat</div>
+          <div class="step-desc">Admin konfirmasi & transaksi lanjut.</div>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <footer class="footer">
-      © 2026 MAZFA Store • Powered by WhatsApp
-    </footer>
+  <!-- Products -->
+  <main class="section" id="produk">
+    <div class="container">
+      <div class="section-head products-head">
+        <div>
+          <div class="section-kicker">Katalog</div>
+          <div class="section-title">Daftar Produk</div>
+          <div class="section-sub">Klik beli untuk order via WhatsApp.</div>
+        </div>
+        <div class="chips">
+          <div class="chip">Realtime</div>
+          <div class="chip">Premium</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div id="loading" class="loading">Loading produk...</div>
+
+        <!-- Penting: ID tetap sama untuk script.js -->
+        <div id="product-list" class="product-grid"></div>
+      </div>
+
+      <div class="note">
+        Tip: kalau stok kosong, chat admin dulu lewat tombol WhatsApp.
+      </div>
+    </div>
   </main>
+
+  <!-- FAQ -->
+  <section class="section" id="faq">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">FAQ</div>
+          <div class="section-title">Pertanyaan umum</div>
+        </div>
+      </div>
+
+      <div class="faq">
+        <details class="faq-item">
+          <summary>Ordernya gimana?</summary>
+          <div class="faq-body">Pilih produk → klik Beli → WhatsApp kebuka dengan format order.</div>
+        </details>
+        <details class="faq-item">
+          <summary>Harga sudah final?</summary>
+          <div class="faq-body">Harga di katalog adalah harga yang tercantum. Admin akan konfirmasi sebelum proses.</div>
+        </details>
+        <details class="faq-item">
+          <summary>Kalau stok habis?</summary>
+          <div class="faq-body">Klik chat WhatsApp dan tanya ketersediaan, nanti admin update stok.</div>
+        </details>
+      </div>
+
+      <footer class="footer">
+        © 2026 MAZFA OFFICIAL • Powered by WhatsApp
+      </footer>
+    </div>
+  </section>
+
+  <!-- Floating WA -->
+  <a class="wa-float" href="https://wa.me/6283850340631" target="_blank" rel="noopener">
+    WhatsApp
+  </a>
 
   <script src="script.js"></script>
   <script>
-    // tetap panggil seperti sebelumya biar tidak rusak
     loadProducts(false);
   </script>
 </body>
