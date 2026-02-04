@@ -1,44 +1,48 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MARKET MAZFA</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+
   <!-- HEADER PATEN -->
   <div class="top-fixed">
     <div class="header">
-      <img
-        src="https://files.catbox.moe/y57j5l.jpg"
-        class="profile"
-        alt="Foto profil MAZFA"
-        onerror="this.style.display='none';"
-      />
+      <!-- kalau profil pakai link, ganti src ke link kamu -->
+      <img src="https://files.catbox.moe/y57j5l.jpg" class="profile" alt="Profil MAZFA" />
       <div class="title-wrap">
         <h1 class="title">MAZFA OFFICIAL</h1>
-        <div class="status online" aria-label="Status online">● Online</div>
+        <div class="status online">● Online</div>
       </div>
     </div>
-
     <div class="section-title">Price List Diamond Kami</div>
   </div>
 
   <!-- DASHBOARD -->
-  <main class="dashboard">
+  <div class="dashboard">
     <div id="loading">Loading produk...</div>
+    <div id="product-list"></div>
 
-    <!-- ini khusus produk doang -->
-    <div id="product-list" aria-live="polite"></div>
+    <div class="footer">
+      © 2026 FF Store
+    </div>
+  </div>
 
-    <!-- FOOTER dipisah biar aman dari render JS -->
-    <footer class="footer">
-      © <span id="year"></span> FF Store
-    </footer>
-  </main>
-
+  <!-- penting: defer biar JS nunggu DOM -->
   <script src="script.js" defer></script>
+  <script>
+    // panggil setelah DOM siap + script.js sudah keload (defer)
+    document.addEventListener("DOMContentLoaded", function () {
+      if (typeof loadProducts === "function") {
+        loadProducts(false);
+      } else {
+        console.error("loadProducts tidak ditemukan (cek script.js)");
+      }
+    });
+  </script>
+
 </body>
 </html>
