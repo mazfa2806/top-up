@@ -1,72 +1,69 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-  <title>Admin FF Store</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta charset="UTF-8">
+  <title>Admin MAZFA Store</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-  <main class="dashboard" style="margin-top: 24px;">
-    <div class="card" style="padding:14px; margin-bottom:12px;">
-      <h1 class="title" style="text-align:center; margin:0; white-space:normal;">ADMIN FF STORE</h1>
-      <p style="text-align:center; margin:8px 0 0; color: rgba(220,245,255,.75); font-size:12.5px;">
-        Login dulu untuk tambah / hapus produk.
-      </p>
+
+<h1 class="title" style="text-align:center; margin-top:16px; white-space:normal;">ADMIN MAZFA STORE</h1>
+
+<!-- LOGIN -->
+<div id="login-box" class="card admin-box" style="max-width:520px;margin:12px auto;">
+  <h2>Admin Login</h2>
+  <input type="password" id="adminPass" placeholder="Password admin">
+  <button class="login-btn" onclick="login()">Login</button>
+</div>
+
+<!-- DASHBOARD -->
+<div id="admin-panel" style="display:none; max-width:980px; margin:0 auto; padding:0 12px 18px;">
+
+  <!-- FORM TAMBAH -->
+  <div class="card admin-box" style="margin-top:12px;">
+    <h2>Tambah Produk</h2>
+
+    <select id="pcat" style="width:100%; padding:10px 12px; border-radius:10px; border:1px solid rgba(0,255,255,.12); background:rgba(0,0,0,.25); color:#eef7ff; outline:none; margin-bottom:10px;">
+      <option value="ff">Diamond Free Fire</option>
+      <option value="panel">Panel Pterodactyl</option>
+      <option value="apk">APK Premium</option>
+      <option value="lain">Lainnya</option>
+    </select>
+
+    <input id="pname" placeholder="Nama Produk">
+    <input id="pprice" placeholder="Harga">
+    <input id="pstock" placeholder="Stok">
+
+    <button onclick="addProduct()">Tambah Produk</button>
+  </div>
+
+  <!-- FILTER ADMIN -->
+  <div class="card admin-box" style="margin-top:12px;">
+    <h2>Filter Produk</h2>
+
+    <div style="display:grid; grid-template-columns:1fr; gap:10px;">
+      <input id="adminSearch" placeholder="Cari produk (admin)..." style="width:100%;">
+      <select id="adminCategory" style="width:100%;">
+        <option value="all">Semua Kategori</option>
+        <option value="ff">Diamond Free Fire</option>
+        <option value="panel">Panel Pterodactyl</option>
+        <option value="apk">APK Premium</option>
+        <option value="lain">Lainnya</option>
+      </select>
+      <button onclick="adminResetFilter()">Reset Filter</button>
     </div>
+  </div>
 
-    <!-- LOGIN -->
-    <div id="login-box" class="card" style="padding:14px; margin-bottom:12px;">
-      <h2 style="margin:0 0 10px; font-size:16px;">Admin Login</h2>
+  <!-- LIST -->
+  <div id="loading" style="text-align:center; margin-top:14px;">Loading produk...</div>
+  <div id="product-list" class="grid" style="margin-top:12px;"></div>
 
-      <input
-        type="password"
-        id="adminPass"
-        placeholder="Password admin"
-        style="width:100%; padding:10px 12px; border-radius:10px; border:1px solid rgba(0,255,255,.12); background:rgba(0,0,0,.25); color:#eef7ff; outline:none;"
-      />
+  <button class="logout-btn" onclick="logout()" style="margin:12px 0 18px;">Logout</button>
 
-      <div style="display:flex; gap:10px; margin-top:10px;">
-        <button class="btn-buy" style="flex:1;" onclick="login()">Login</button>
-      </div>
+  <footer style="text-align:center; opacity:.6; padding-bottom:18px;">© 2026 MAZFA Store</footer>
+</div>
 
-      <p style="margin:10px 0 0; font-size:12px; color: rgba(220,245,255,.65);">
-        Tips: gunakan password yang benar sesuai ADMIN_KEY di script.
-      </p>
-    </div>
-
-    <!-- DASHBOARD -->
-    <div id="admin-panel" style="display:none;">
-      <div class="card" style="padding:14px; margin-bottom:12px;">
-        <h2 style="margin:0 0 10px; font-size:16px;">Dashboard Admin</h2>
-
-        <div style="display:grid; grid-template-columns:1fr; gap:10px;">
-          <input id="pname" placeholder="Nama Produk"
-            style="width:100%; padding:10px 12px; border-radius:10px; border:1px solid rgba(0,255,255,.12); background:rgba(0,0,0,.25); color:#eef7ff; outline:none;" />
-
-          <input id="pprice" placeholder="Harga (angka, contoh: 5000)" type="number"
-            style="width:100%; padding:10px 12px; border-radius:10px; border:1px solid rgba(0,255,255,.12); background:rgba(0,0,0,.25); color:#eef7ff; outline:none;" />
-
-          <input id="pstock" placeholder="Stok (angka)" type="number"
-            style="width:100%; padding:10px 12px; border-radius:10px; border:1px solid rgba(0,255,255,.12); background:rgba(0,0,0,.25); color:#eef7ff; outline:none;" />
-
-          <button class="btn-buy" onclick="addProduct()">Tambah Produk</button>
-        </div>
-      </div>
-
-      <!-- LIST PRODUK (Pakai #product-list yang sama agar JS jalan) -->
-      <div id="loading">Loading produk...</div>
-      <div id="product-list"></div>
-
-      <div style="display:flex; gap:10px; margin-top:12px;">
-        <button class="btn-delete" style="flex:1;" onclick="logout()">Logout</button>
-      </div>
-
-      <div class="footer" style="margin-top:14px;">© <span id="year"></span> FF Store</div>
-    </div>
-  </main>
-
-  <script src="script.js" defer></script>
+<script src="script.js"></script>
 </body>
-  </html>
+</html>
