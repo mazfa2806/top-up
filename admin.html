@@ -8,23 +8,23 @@
 </head>
 <body>
 
-<h1 class="title" style="text-align:center; margin-top:16px; white-space:normal;">ADMIN MAZFA STORE</h1>
+<h1 class="title page-title">ADMIN MAZFA STORE</h1>
 
 <!-- LOGIN -->
-<div id="login-box" class="card admin-box" style="max-width:520px;margin:12px auto;">
+<div id="login-box" class="card admin-box">
   <h2>Admin Login</h2>
   <input type="password" id="adminPass" placeholder="Password admin">
   <button class="login-btn" onclick="login()">Login</button>
 </div>
 
 <!-- DASHBOARD -->
-<div id="admin-panel" style="display:none; max-width:980px; margin:0 auto; padding:0 12px 18px;">
+<div id="admin-panel" style="display:none" class="admin-wrap">
 
   <!-- FORM TAMBAH -->
-  <div class="card admin-box" style="margin-top:12px;">
+  <div class="card admin-box">
     <h2>Tambah Produk</h2>
 
-    <select id="pcat" style="width:100%; padding:10px 12px; border-radius:10px; border:1px solid rgba(0,255,255,.12); background:rgba(0,0,0,.25); color:#eef7ff; outline:none; margin-bottom:10px;">
+    <select id="pcat" class="admin-select">
       <option value="ff">Diamond Free Fire</option>
       <option value="panel">Panel Pterodactyl</option>
       <option value="apk">APK Premium</option>
@@ -32,36 +32,35 @@
     </select>
 
     <input id="pname" placeholder="Nama Produk">
-    <input id="pprice" placeholder="Harga">
+    <input id="pprice" placeholder="Harga (angka)">
     <input id="pstock" placeholder="Stok">
 
     <button onclick="addProduct()">Tambah Produk</button>
   </div>
 
-  <!-- FILTER ADMIN -->
-  <div class="card admin-box" style="margin-top:12px;">
+  <!-- FILTER -->
+  <div class="card admin-box">
     <h2>Filter Produk</h2>
 
-    <div style="display:grid; grid-template-columns:1fr; gap:10px;">
-      <input id="adminSearch" placeholder="Cari produk (admin)..." style="width:100%;">
-      <select id="adminCategory" style="width:100%;">
-        <option value="all">Semua Kategori</option>
-        <option value="ff">Diamond Free Fire</option>
-        <option value="panel">Panel Pterodactyl</option>
-        <option value="apk">APK Premium</option>
-        <option value="lain">Lainnya</option>
-      </select>
-      <button onclick="adminResetFilter()">Reset Filter</button>
-    </div>
+    <input id="adminSearch" placeholder="Cari produk (admin)...">
+
+    <select id="adminCategory" class="admin-select">
+      <option value="all">Semua Kategori</option>
+      <option value="ff">Diamond Free Fire</option>
+      <option value="panel">Panel Pterodactyl</option>
+      <option value="apk">APK Premium</option>
+      <option value="lain">Lainnya</option>
+    </select>
+
+    <button onclick="adminResetFilter()">Reset Filter</button>
   </div>
 
-  <!-- LIST -->
-  <div id="loading" style="text-align:center; margin-top:14px;">Loading produk...</div>
-  <div id="product-list" class="grid" style="margin-top:12px;"></div>
+  <div id="loading" class="loading">Loading produk...</div>
+  <div id="product-list" class="grid"></div>
 
-  <button class="logout-btn" onclick="logout()" style="margin:12px 0 18px;">Logout</button>
+  <button class="logout-btn" onclick="logout()">Logout</button>
 
-  <footer style="text-align:center; opacity:.6; padding-bottom:18px;">© 2026 MAZFA Store</footer>
+  <footer class="footer">© 2026 MAZFA OFFICIAL</footer>
 </div>
 
 <script src="script.js"></script>
