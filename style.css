@@ -436,3 +436,30 @@ body{
 .navx-sub {
   line-height: 1.1;
 }
+
+/* ===== Header: MAZFA lebih besar + online 1 baris ===== */
+
+/* Besarin tulisan MAZFA */
+.navx-title{
+  font-size: 18px;      /* naikkan kalau mau lebih besar: 19/20 */
+  font-weight: 1000;
+  letter-spacing: .12em;
+}
+
+/* Online + titik hijau 1 baris */
+.navx-sub{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;  /* biar nggak turun baris */
+  font-size: 12.5px;
+  line-height: 1;
+}
+
+/* Titik hijau rapih */
+.navx-dot{
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
