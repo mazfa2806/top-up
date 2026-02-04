@@ -399,3 +399,40 @@ body{
 @media (max-width: 560px){
   .gridX{ grid-template-columns: 1fr; }
   }
+
+/* ==== FIX HEADER MOBILE (AVATAR + NAMA SEJAJAR) ==== */
+
+.navx-inner {
+  min-height: 64px;
+  align-items: center;
+}
+
+.navx-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navx-avatar {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.navx-meta {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 1.2;
+}
+
+.navx-title {
+  line-height: 1.2;
+}
+
+.navx-sub {
+  line-height: 1.1;
+}
