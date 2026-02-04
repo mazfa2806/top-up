@@ -2,8 +2,67 @@ const API_URL = "https://script.google.com/macros/s/AKfycbwHxg_ir21pRQKVXi6q66ya
 const ADMIN_KEY = "mazfa2806";
 
 let PRODUCTS = [];
-let ACTIVE_CAT = "all";
 
+/* ================== KATEGORI DARI NAMA (TANPA UBAH SHEET) ================== */
+function guessCategory(name) {
+  const n = String(name || "").toLowerCase();
+
+  // Diamond Free Fire
+  if (
+    n.includes("free fire") ||
+    n.includes("diamond ff") ||
+    n.includes("diamond free fire") ||
+    n.includes("dm ff") ||
+    n.includes("[ff]") ||
+    n.includes(" ff ")
+  ) return "ff";
+
+  // Panel Pterodactyl
+  if (
+    n.includes("pterodactyl") ||
+    n.includes("ptero") ||
+    n.includes("[panel]") ||
+    n.includes("panel ptero") ||
+    n.includes("panel pterodactyl") ||
+    n.startsWith("panel")
+  ) return "panel";
+
+  // APK Premium
+  if (
+    n.includes("apk premium") ||
+    n.includes("[apk]") ||
+    n.includes("apk") ||
+    n.includes("premium") ||
+    n.includes("pro") ||
+    n.includes("mod")
+  ) return "apk";
+
+  return "lain";
+}
+
+// Saat tambah produk: tempelin prefix biar kategori kebaca
+function normalizeNameWithCategory(name, cat) {
+  const n = String(name || "").trim();
+  const low = n.toLowerCase();
+
+  if (cat === "ff") {
+    if (!low.includes("ff") && !low.includes("free fire")) return `[FF] ${n}`;
+    return n;
+  }
+  if (cat === "panel") {
+    if (!low.includes("panel") && !low.includes("ptero") && !low.includes("pterodactyl")) return `[PANEL] ${n}`;
+    if (!low.includes("ptero") && !low.includes("pterodactyl")) return `${n} (Pterodactyl)`;
+    return n;
+  }
+  if (cat === "apk") {
+    if (!low.includes("apk")) return `[APK] ${n}`;
+    if (!low.includes("premium") && !low.includes("pro")) return `${n} Premium`;
+    return n;
+  }
+  return n;
+}
+
+/* ================== LOAD ================== */
 function loadProducts(isAdmin) {
   const loading = document.getElementById("loading");
   const list = document.getElementById("product-list");
@@ -24,14 +83,11 @@ function loadProducts(isAdmin) {
 
       PRODUCTS = data;
 
-      // render awal
-      renderProducts(isAdmin, applyFilters(PRODUCTS, isAdmin));
-
-      // setup fitur index saja (tidak ganggu admin)
-      if (!isAdmin) {
-        buildCategoryChips();
-        bindSearchSort();
-        updateCount(applyFilters(PRODUCTS, false).length);
+      if (isAdmin) {
+        renderAdminList();
+        bindAdminFilterOnce();
+      } else {
+        renderStoreList();
       }
     })
     .catch(err => {
@@ -41,202 +97,187 @@ function loadProducts(isAdmin) {
     });
 }
 
-/* ========= BUY ========= */
-function buy(name, priceText) {
-  const waNumber = "6283850340631";
-  const text = `Halo admin, saya mau beli:\nProduk: ${name}\nHarga: ${priceText}`;
-  const url = "https://wa.me/" + waNumber + "?text=" + encodeURIComponent(text);
-  window.open(url, "_blank");
+/* ================== STORE RENDER (INDEX) ================== */
+function renderStoreList() {
+  const list = document.getElementById("product-list");
+  if (!list) return;
+
+  let html = "";
+  PRODUCTS.forEach((p, i) => {
+    const name = p?.name ?? "";
+    const price = p?.price ?? "";
+    const stock = p?.stock ?? "";
+
+    html += `
+      <div class="card">
+        <div class="info">
+          <h3>${escapeHTML(name)}</h3>
+          <p>Harga: ${escapeHTML(price)}</p>
+          <p>Stok: ${escapeHTML(stock)}</p>
+        </div>
+        <button onclick="buy('${escapeJS(name)}','${escapeJS(price)}')">Beli</button>
+      </div>
+    `;
+  });
+
+  list.innerHTML = html;
 }
 
-/* ========= ADMIN (biarkan sama) ========= */
-function login() {
-  const passEl = document.getElementById("adminPass");
-  const pass = passEl ? passEl.value : "";
+/* ================== ADMIN FILTER + RENDER ================== */
+function getAdminFilteredView() {
+  const q = (document.getElementById("adminSearch")?.value || "").toLowerCase().trim();
+  const cat = (document.getElementById("adminCategory")?.value || "all");
 
+  // view: [{p, idx}]
+  let view = PRODUCTS.map((p, idx) => ({ p, idx }));
+
+  if (cat !== "all") {
+    view = view.filter(x => guessCategory(x.p?.name) === cat);
+  }
+
+  if (q) {
+    view = view.filter(x => String(x.p?.name || "").toLowerCase().includes(q));
+  }
+
+  return view;
+}
+
+function renderAdminList() {
+  const list = document.getElementById("product-list");
+  if (!list) return;
+
+  const view = getAdminFilteredView();
+
+  let html = "";
+  view.forEach(({ p, idx }) => {
+    const name = p?.name ?? "";
+    const price = p?.price ?? "";
+    const stock = p?.stock ?? "";
+    const cat = guessCategory(name);
+
+    const catLabel =
+      cat === "ff" ? "Diamond FF" :
+      cat === "panel" ? "Panel Ptero" :
+      cat === "apk" ? "APK Premium" : "Lainnya";
+
+    html += `
+      <div class="card">
+        <div class="info">
+          <h3>${escapeHTML(name)}</h3>
+          <p>Harga: ${escapeHTML(price)}</p>
+          <p>Stok: ${escapeHTML(stock)}</p>
+          <p style="opacity:.75;font-size:12px;margin-top:6px;">Kategori: ${catLabel}</p>
+        </div>
+        <button onclick="deleteProduct(${idx})">Hapus</button>
+      </div>
+    `;
+  });
+
+  list.innerHTML = html || `<div style="text-align:center; opacity:.65; padding:12px;">Tidak ada produk di filter ini.</div>`;
+}
+
+function bindAdminFilterOnce() {
+  const s = document.getElementById("adminSearch");
+  const c = document.getElementById("adminCategory");
+  if (!s || !c) return;
+
+  if (s.dataset.bound === "1") return;
+  s.dataset.bound = "1";
+
+  const apply = () => renderAdminList();
+
+  s.addEventListener("input", apply);
+  c.addEventListener("change", apply);
+}
+
+function adminResetFilter() {
+  const s = document.getElementById("adminSearch");
+  const c = document.getElementById("adminCategory");
+  if (s) s.value = "";
+  if (c) c.value = "all";
+  renderAdminList();
+}
+
+/* ================== WA ================== */
+function buy(name, price) {
+  const waNumber = "6283850340631";
+  const text = `Halo admin, saya mau beli:\nProduk: ${name}\nHarga: ${price}`;
+  const url = "https://wa.me/" + waNumber + "?text=" + encodeURIComponent(text);
+  window.location.href = url;
+}
+
+/* ================== LOGIN ADMIN ================== */
+function login() {
+  const pass = document.getElementById("adminPass")?.value || "";
   if (pass === ADMIN_KEY) {
-    const loginBox = document.getElementById("login-box");
-    const panel = document.getElementById("admin-panel");
-    if (loginBox) loginBox.style.display = "none";
-    if (panel) panel.style.display = "block";
+    document.getElementById("login-box").style.display = "none";
+    document.getElementById("admin-panel").style.display = "block";
     loadProducts(true);
   } else alert("Password salah");
 }
 
-function logout() { location.reload(); }
+function logout() {
+  location.reload();
+}
 
+/* ================== ADD / DELETE (API LAMA TETAP) ================== */
 function addProduct() {
   const nameEl = document.getElementById("pname");
   const priceEl = document.getElementById("pprice");
   const stockEl = document.getElementById("pstock");
+  const catEl = document.getElementById("pcat");
 
-  const name = nameEl ? nameEl.value.trim() : "";
+  const rawName = nameEl ? nameEl.value.trim() : "";
   const price = priceEl ? priceEl.value.trim() : "";
   const stock = stockEl ? stockEl.value.trim() : "";
+  const cat = catEl ? catEl.value : "lain";
 
-  if (!name || !price) return alert("Nama & harga wajib diisi");
+  if (!rawName || !price) {
+    alert("Nama & harga wajib diisi");
+    return;
+  }
+
+  const name = normalizeNameWithCategory(rawName, cat);
 
   fetch(API_URL, {
     method: "POST",
     body: JSON.stringify({
       key: ADMIN_KEY,
       action: "add",
-      name, price, stock,
-      Produk: name,
-      Harga: price,
-      Stok: stock
+      name: name,
+      price: price,
+      stock: stock
     })
-  }).then(() => loadProducts(true));
+  })
+    .then(() => {
+      if (nameEl) nameEl.value = "";
+      if (priceEl) priceEl.value = "";
+      if (stockEl) stockEl.value = "";
+      loadProducts(true);
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Gagal tambah produk");
+    });
 }
 
-function deleteProduct(i) {
+function deleteProduct(realIndex) {
   fetch(API_URL, {
     method: "POST",
     body: JSON.stringify({
       key: ADMIN_KEY,
       action: "delete",
-      index: i
+      index: realIndex
     })
-  }).then(() => loadProducts(true));
-}
-
-/* ========= INDEX ENHANCEMENTS ========= */
-
-function formatIDR(val) {
-  const n = Number(String(val).replace(/[^\d.-]/g, "")) || 0;
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    maximumFractionDigits: 0,
-  }).format(n);
-}
-
-function badgeFor(stockVal){
-  const s = Number(stockVal) || 0;
-  if (s <= 0) return { cls:"sold", text:"Habis" };
-  if (s <= 5) return { cls:"limited", text:"Limited" };
-  return { cls:"ready", text:"Ready" };
-}
-
-// Kategori otomatis dari nama (kalau belum ada category field)
-function guessCategory(name){
-  const n = String(name || "").toLowerCase();
-  if (n.includes("diamond")) return "diamond";
-  if (n.includes("top up") || n.includes("topup")) return "topup";
-  if (n.includes("voucher")) return "voucher";
-  return "lainnya";
-}
-
-function applyFilters(items, isAdmin){
-  if (isAdmin) return items;
-
-  const qEl = document.getElementById("search");
-  const sortEl = document.getElementById("sort");
-  const q = (qEl?.value || "").toLowerCase().trim();
-  const sort = sortEl?.value || "default";
-
-  let out = items.slice();
-
-  // category filter
-  if (ACTIVE_CAT !== "all") {
-    out = out.filter(p => guessCategory(p?.name) === ACTIVE_CAT);
-  }
-
-  // search
-  if (q) {
-    out = out.filter(p => String(p?.name || "").toLowerCase().includes(q));
-  }
-
-  // sort
-  const priceNum = (p) => Number(String(p?.price ?? 0).replace(/[^\d.-]/g,"")) || 0;
-  if (sort === "low") out.sort((a,b) => priceNum(a) - priceNum(b));
-  if (sort === "high") out.sort((a,b) => priceNum(b) - priceNum(a));
-  if (sort === "az") out.sort((a,b) => String(a?.name||"").localeCompare(String(b?.name||"")));
-
-  return out;
-}
-
-function renderProducts(isAdmin, items) {
-  const list = document.getElementById("product-list");
-  if (!list) return;
-
-  let html = "";
-  items.forEach((p, i) => {
-    const name = p?.name ?? "";
-    const priceRaw = p?.price ?? "";
-    const stock = p?.stock ?? "";
-
-    const priceText = isAdmin ? escapeHTML(priceRaw) : formatIDR(priceRaw);
-    const b = badgeFor(stock);
-
-    html += `
-      <div class="card">
-        <div class="info">
-          <h3>${escapeHTML(name)}</h3>
-          <p>Harga: ${isAdmin ? escapeHTML(priceRaw) : priceText}</p>
-          <p>Stok: ${escapeHTML(stock)}</p>
-          ${!isAdmin ? `<div class="badge ${b.cls}">${b.text}</div>` : ``}
-        </div>
-        ${
-          isAdmin
-            ? `<button onclick="deleteProduct(${i})">Hapus</button>`
-            : `<button onclick="buy('${escapeJS(name)}','${escapeJS(priceText)}')">Beli</button>`
-        }
-      </div>
-    `;
-  });
-
-  list.innerHTML = html || `<div class="loading">Tidak ada produk.</div>`;
-}
-
-function buildCategoryChips(){
-  const wrap = document.getElementById("catChips");
-  if (!wrap) return;
-
-  const cats = ["all","diamond","topup","voucher","lainnya"];
-  wrap.innerHTML = cats.map(c => `
-    <button class="chip-btn ${c===ACTIVE_CAT?'active':''}" type="button" data-cat="${c}">
-      ${c === "all" ? "All" : c}
-    </button>
-  `).join("");
-
-  wrap.querySelectorAll("[data-cat]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      ACTIVE_CAT = btn.dataset.cat || "all";
-      buildCategoryChips();
-      const filtered = applyFilters(PRODUCTS, false);
-      renderProducts(false, filtered);
-      updateCount(filtered.length);
+  })
+    .then(() => loadProducts(true))
+    .catch(err => {
+      console.error(err);
+      alert("Gagal hapus produk");
     });
-  });
 }
 
-function bindSearchSort(){
-  const qEl = document.getElementById("search");
-  const clearEl = document.getElementById("clearSearch");
-  const sortEl = document.getElementById("sort");
-  if (!qEl || !sortEl || !clearEl) return;
-
-  if (qEl.dataset.bound === "1") return;
-  qEl.dataset.bound = "1";
-
-  const apply = () => {
-    const filtered = applyFilters(PRODUCTS, false);
-    renderProducts(false, filtered);
-    updateCount(filtered.length);
-  };
-
-  qEl.addEventListener("input", apply);
-  sortEl.addEventListener("change", apply);
-  clearEl.addEventListener("click", () => { qEl.value=""; apply(); });
-}
-
-function updateCount(n){
-  const el = document.getElementById("count");
-  if (el) el.textContent = `Menampilkan ${n} produk`;
-}
-
-/* ========= escape helpers ========= */
+/* ================== HELPERS ================== */
 function escapeHTML(str) {
   return String(str).replace(/[&<>"']/g, m => ({
     "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
