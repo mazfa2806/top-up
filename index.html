@@ -3,84 +3,132 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>MAZFA OFFICIAL STORE</title>
+  <title>MAZFA OFFICIAL • Store</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
 
-<!-- HEADER -->
-<header class="header">
-  <div class="header-left">
-    <img src="https://files.catbox.moe/y57j5l.jpg" class="logo" />
-    <div>
-      <h1>MAZFA OFFICIAL</h1>
-      <span class="status">● Online</span>
+  <div class="bg" aria-hidden="true"></div>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="container header-inner">
+      <div class="brand">
+        <img class="brand-avatar" src="https://files.catbox.moe/y57j5l.jpg" alt="MAZFA" loading="lazy" />
+        <div class="brand-text">
+          <div class="brand-title">MAZFA OFFICIAL</div>
+          <div class="brand-sub"><span class="dot"></span> Online • Fast response</div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a class="nav-link" href="#produk">Produk</a>
+        <a class="nav-link" href="#cara">Cara Order</a>
+        <a class="nav-cta" href="admin.html">Admin</a>
+      </nav>
     </div>
-  </div>
+  </header>
 
-  <div class="header-right">
-    <a href="admin.html">Admin</a>
-  </div>
-</header>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-left">
+        <div class="badge-top">⚡ Premium Diamond Market</div>
+        <h1 class="hero-title">Tampilan Premium. Order Cepat via WhatsApp.</h1>
+        <p class="hero-desc">
+          Cari produk, urutkan harga, lalu klik <b>Beli</b> — otomatis masuk WA dengan format order rapi.
+        </p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#produk">Lihat Produk</a>
+          <a class="btn ghost" href="https://wa.me/6283850340631" target="_blank" rel="noopener">Chat Admin</a>
+        </div>
 
+        <div class="trust">
+          <div class="trust-item">✓ Harga format Rupiah</div>
+          <div class="trust-item">✓ Badge stok otomatis</div>
+          <div class="trust-item">✓ Search & sort</div>
+          <div class="trust-item">✓ Admin tambah/hapus</div>
+        </div>
+      </div>
 
-<!-- MAIN LAYOUT -->
-<div class="layout">
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <h3>Kategori</h3>
-
-    <ul>
-      <li class="active">All Produk</li>
-      <li>Diamond</li>
-      <li>Top Up</li>
-      <li>Voucher</li>
-    </ul>
-
-    <div class="sidebar-box">
-      <h4>Info Toko</h4>
-      <p>Fast response</p>
-      <p>Order via WhatsApp</p>
-      <p>Harga transparan</p>
+      <div class="hero-right">
+        <div class="glass-card">
+          <div class="glass-title">Ringkas</div>
+          <div class="glass-line">• Pilih paket</div>
+          <div class="glass-line">• Klik Beli</div>
+          <div class="glass-line">• Proses cepat</div>
+          <div class="glass-sep"></div>
+          <div class="glass-mini">Scroll ke katalog untuk mulai.</div>
+        </div>
+      </div>
     </div>
-  </aside>
+  </section>
 
+  <!-- MAIN LAYOUT -->
+  <main class="container layout" id="produk">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="side-card">
+        <div class="side-title">Kategori</div>
+        <div id="catChips" class="chips">
+          <!-- diisi JS -->
+        </div>
+      </div>
 
-  <!-- CONTENT -->
-  <main class="content">
+      <div class="side-card">
+        <div class="side-title">Info Toko</div>
+        <div class="side-text">Fast response • Harga jelas • Order via WhatsApp</div>
+        <a class="btn small" href="https://wa.me/6283850340631" target="_blank" rel="noopener">Chat WhatsApp</a>
+      </div>
+    </aside>
 
-    <!-- SEARCH -->
-    <div class="searchbox">
-      <input id="search" placeholder="Cari produk..." />
-    </div>
+    <!-- CONTENT -->
+    <section class="content">
+      <div class="toolbar">
+        <div class="search">
+          <span class="ic" aria-hidden="true">🔎</span>
+          <input id="search" placeholder="Cari produk... (contoh: diamond 50)" />
+          <button id="clearSearch" class="xbtn" type="button">Reset</button>
+        </div>
 
-    <!-- PRODUK -->
-    <div class="panel">
+        <div class="sort">
+          <select id="sort">
+            <option value="default">Urutkan: Default</option>
+            <option value="low">Harga terendah</option>
+            <option value="high">Harga tertinggi</option>
+            <option value="az">Nama A–Z</option>
+          </select>
+        </div>
+      </div>
 
-      <div id="loading">Loading produk...</div>
+      <div class="meta">
+        <div id="count" class="count">Memuat…</div>
+        <div class="pill">Realtime</div>
+      </div>
 
-      <!-- WAJIB: id ini jangan diubah -->
-      <div id="product-list" class="grid"></div>
+      <div class="panel">
+        <div id="loading" class="loading">Loading produk...</div>
 
-    </div>
+        <!-- WAJIB: id ini dipakai script.js -->
+        <div id="product-list" class="grid"></div>
+      </div>
 
+      <section class="how" id="cara">
+        <h2>Cara Order</h2>
+        <ol>
+          <li>Pilih produk di katalog.</li>
+          <li>Klik <b>Beli</b> (WA kebuka otomatis).</li>
+          <li>Admin konfirmasi & proses.</li>
+        </ol>
+      </section>
+
+      <footer class="footer">© 2026 MAZFA OFFICIAL</footer>
+    </section>
   </main>
 
-</div>
+  <a class="wa-float" href="https://wa.me/6283850340631" target="_blank" rel="noopener">WhatsApp</a>
 
-
-<!-- FOOTER -->
-<footer class="footer">
-  © 2026 MAZFA OFFICIAL
-</footer>
-
-
-<script src="script.js"></script>
-<script>
-  loadProducts(false);
-</script>
-
+  <script src="script.js"></script>
+  <script>loadProducts(false);</script>
 </body>
-</html>
+          </html>
