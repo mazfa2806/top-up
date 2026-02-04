@@ -234,43 +234,75 @@ function addProduct() {
 
   const name = normalizeNameWithCategory(rawName, cat);
 
+  const payload = {
+    key: ADMIN_KEY,
+    action: "add",
+
+    // format baru (kalau backend kamu pakai ini)
+    name: name,
+    price: price,
+    stock: stock,
+
+    // format lama (banyak Apps Script pakai ini)
+    Produk: name,
+    Harga: price,
+    Stok: stock,
+  };
+
   fetch(API_URL, {
     method: "POST",
-    body: JSON.stringify({
-      key: ADMIN_KEY,
-      action: "add",
-      name,
-      price,
-      stock
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify(payload),
+  })
+    .then(async (res) => {
+      const txt = await res.text();
+      console.log("ADD response:", res.status, txt);
+
+      if (!res.ok) throw new Error("HTTP " + res.status);
+
+      // reset input
+      if ($("pname")) $("pname").value = "";
+      if ($("pprice")) $("pprice").value = "";
+      if ($("pstock")) $("pstock").value = "";
+
+      loadProducts(true);
     })
-  })
-  .then(() => {
-    if ($("pname")) $("pname").value = "";
-    if ($("pprice")) $("pprice").value = "";
-    if ($("pstock")) $("pstock").value = "";
-    loadProducts(true);
-  })
-  .catch(err => {
-    console.error(err);
-    alert("Gagal tambah produk (cek console).");
-  });
+    .catch((err) => {
+      console.error("ADD ERROR:", err);
+      alert("Gagal tambah produk. Cek console (F12).");
+    });
 }
 
 function deleteProduct(realIndex) {
+  const payload = {
+    key: ADMIN_KEY,
+    action: "delete",
+
+    // format baru
+    index: realIndex,
+
+    // format lama (jaga-jaga)
+    Index: realIndex,
+  };
+
   fetch(API_URL, {
     method: "POST",
-    body: JSON.stringify({
-      key: ADMIN_KEY,
-      action: "delete",
-      index: realIndex
-    })
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify(payload),
   })
-  .then(() => loadProducts(true))
-  .catch(err => {
-    console.error(err);
-    alert("Gagal hapus produk (cek console).");
-  });
-}
+    .then(async (res) => {
+      const txt = await res.text();
+      console.log("DELETE response:", res.status, txt);
+
+      if (!res.ok) throw new Error("HTTP " + res.status);
+
+      loadProducts(true);
+    })
+    .catch((err) => {
+      console.error("DELETE ERROR:", err);
+      alert("Gagal hapus produk. Cek console (F12).");
+    });
+                                   }
 
 // admin view (filter + search) -> delete pakai idx asli
 function adminView() {
