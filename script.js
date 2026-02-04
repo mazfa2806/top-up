@@ -1,85 +1,207 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbwHxg_ir21pRQKVXi6q66yaSPx_Smii8UtRUPo4NS-zkUyiBByOwNuy0453herHp3bZxw/exec";
+// ================= CONFIG =================
+const API_URL =
+  "https://script.google.com/macros/s/AKfycbwHxg_ir21pRQKVXi6q66yaSPx_Smii8UtRUPo4NS-zkUyiBByOwNuy0453herHp3bZxw/exec";
+
 const ADMIN_KEY = "mazfa2806";
 
-function loadProducts(isAdmin) {
+const WA_NUMBER = "6283850340631";
+
+// ================= STATE =================
+let PRODUCTS = [];
+
+// ================= INIT =================
+document.addEventListener("DOMContentLoaded", () => {
+  const year = document.getElementById("year");
+  if (year) year.textContent = new Date().getFullYear();
+
+  // Auto load untuk halaman utama
+  if (document.getElementById("product-list")) {
+    loadProducts(false);
+  }
+});
+
+// ================= LOAD =================
+async function loadProducts(isAdmin = false) {
   const loading = document.getElementById("loading");
   const list = document.getElementById("product-list");
 
-  if (loading) loading.style.display = "block"; // tampilkan loading
-  if (list) list.innerHTML = "";                // kosongkan dulu
+  if (!list) return;
 
-  fetch(API_URL)
-    .then(r => r.json())
-    .then(data => {
-      if (loading) loading.style.display = "none"; // sembunyikan loading
+  loading && (loading.style.display = "block");
+  list.innerHTML = "";
 
-      data.forEach((p, i) => {
-  list.innerHTML += `
-  <div class="card">
-    <div class="info">
-      <h3>${p.name}</h3>
-      <p>Harga: ${p.price}</p>
-      <p>Stok: ${p.stock}</p>
-    </div>
-    ${isAdmin
-      ? `<button onclick="deleteProduct(${i})">Hapus</button>`
-      : `<button onclick="buy('${p.name}',${p.price})">Beli</button>`
+  try {
+    const res = await fetch(`${API_URL}?action=list`);
+    const json = await res.json();
+
+    if (!Array.isArray(json)) {
+      throw new Error("Format data salah");
     }
-  </div>`;
-});
-    })
-    .catch(err => {
-      if (loading) loading.style.display = "none";
-      console.error(err);
-      alert("Gagal memuat produk");
-    });
+
+    PRODUCTS = json;
+
+    renderProducts(isAdmin);
+
+    loading && (loading.style.display = "none");
+  } catch (err) {
+    console.error(err);
+
+    loading && (loading.style.display = "none");
+
+    list.innerHTML = `
+      <div style="padding:15px;color:red">
+        Gagal memuat produk.
+      </div>
+    `;
+  }
 }
 
+// ================= RENDER =================
+function renderProducts(isAdmin) {
+  const list = document.getElementById("product-list");
+  let html = "";
+
+  PRODUCTS.forEach((p, i) => {
+    html += `
+      <div class="card">
+
+        <div class="info">
+          <h3>${escapeHTML(p.name)}</h3>
+          <p>Harga: ${formatRupiah(p.price)}</p>
+          <p>Stok: ${p.stock}</p>
+        </div>
+
+        ${
+          isAdmin
+            ? `<button class="btn-delete" onclick="deleteProduct(${i})">Hapus</button>`
+            : `<button class="btn-buy" onclick="buy('${escapeJS(
+                p.name
+              )}',${p.price})">Beli</button>`
+        }
+
+      </div>
+    `;
+  });
+
+  list.innerHTML = html;
+}
+
+// ================= BUY =================
 function buy(name, price) {
-  const waNumber = "6283850340631"; // GANTI NOMOR KAMU (FORMAT BENAR)
+  const text = `
+Halo admin, saya mau beli:
 
-  const text = `Halo admin, saya mau beli:
 Produk: ${name}
-Harga: ${price}`;
+Harga: ${formatRupiah(price)}
+  `.trim();
 
-  const url = "https://wa.me/" + waNumber + "?text=" + encodeURIComponent(text);
+  const url =
+    "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(text);
 
-  window.location.href = url;
+  window.open(url, "_blank");
 }
 
+// ================= ADMIN =================
 function login() {
-  const pass = document.getElementById("adminPass").value;
-  if (pass === ADMIN_KEY) {
+  const pass = document.getElementById("adminPass");
+
+  if (!pass) return;
+
+  if (pass.value === ADMIN_KEY) {
     document.getElementById("login-box").style.display = "none";
     document.getElementById("admin-panel").style.display = "block";
+
     loadProducts(true);
-  } else alert("Password salah");
+  } else {
+    alert("Password salah!");
+  }
 }
 
 function logout() {
   location.reload();
 }
 
-function addProduct() {
-  fetch(API_URL, {
-    method: "POST",
-    body: JSON.stringify({
-      key: ADMIN_KEY,
-      action: "add",
-      Produk: pname.value,
-      Harga: pprice.value,
-      Stok: pstock.value
-    })
-  }).then(() => loadProducts(true));
+async function addProduct() {
+  const name = document.getElementById("pname");
+  const price = document.getElementById("pprice");
+  const stock = document.getElementById("pstock");
+
+  if (!name || !price || !stock) {
+    alert("Form belum lengkap");
+    return;
+  }
+
+  if (!name.value || !price.value) {
+    alert("Nama & harga wajib diisi");
+    return;
+  }
+
+  try {
+    await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        key: ADMIN_KEY,
+        action: "add",
+        name: name.value,
+        price: Number(price.value),
+        stock: Number(stock.value),
+      }),
+    });
+
+    name.value = "";
+    price.value = "";
+    stock.value = "";
+
+    loadProducts(true);
+  } catch (e) {
+    alert("Gagal tambah produk");
+  }
 }
 
-function deleteProduct(i) {
-  fetch(API_URL, {
-    method: "POST",
-    body: JSON.stringify({
-      key: ADMIN_KEY,
-      action: "delete",
-      index: i
-    })
-  }).then(() => loadProducts(true));
-     }
+async function deleteProduct(i) {
+  if (!confirm("Hapus produk ini?")) return;
+
+  try {
+    await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        key: ADMIN_KEY,
+        action: "delete",
+        index: i,
+      }),
+    });
+
+    loadProducts(true);
+  } catch (e) {
+    alert("Gagal hapus produk");
+  }
+}
+
+// ================= UTILS =================
+function formatRupiah(num) {
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    maximumFractionDigits: 0,
+  }).format(num || 0);
+}
+
+function escapeHTML(str) {
+  return String(str).replace(/[&<>"']/g, (m) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;",
+  }[m]));
+}
+
+function escapeJS(str) {
+  return String(str).replace(/'/g, "\\'");
+}
