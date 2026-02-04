@@ -1,42 +1,72 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta charset="UTF-8">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
   <title>Admin FF Store</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
+  <main class="dashboard" style="margin-top: 24px;">
+    <div class="card" style="padding:14px; margin-bottom:12px;">
+      <h1 class="title" style="text-align:center; margin:0; white-space:normal;">ADMIN FF STORE</h1>
+      <p style="text-align:center; margin:8px 0 0; color: rgba(220,245,255,.75); font-size:12.5px;">
+        Login dulu untuk tambah / hapus produk.
+      </p>
+    </div>
 
-<h1 class="title">ADMIN FF STORE</h1>
+    <!-- LOGIN -->
+    <div id="login-box" class="card" style="padding:14px; margin-bottom:12px;">
+      <h2 style="margin:0 0 10px; font-size:16px;">Admin Login</h2>
 
-<!-- LOGIN -->
-<div id="login-box" class="card admin-box">
-  <h2>Admin Login</h2>
+      <input
+        type="password"
+        id="adminPass"
+        placeholder="Password admin"
+        style="width:100%; padding:10px 12px; border-radius:10px; border:1px solid rgba(0,255,255,.12); background:rgba(0,0,0,.25); color:#eef7ff; outline:none;"
+      />
 
-  <input type="password" id="adminPass" placeholder="Password admin">
+      <div style="display:flex; gap:10px; margin-top:10px;">
+        <button class="btn-buy" style="flex:1;" onclick="login()">Login</button>
+      </div>
 
-  <button class="login-btn" onclick="login()">Login</button>
-</div>
-<!-- DASHBOARD -->
-<div id="admin-panel" style="display:none">
+      <p style="margin:10px 0 0; font-size:12px; color: rgba(220,245,255,.65);">
+        Tips: gunakan password yang benar sesuai ADMIN_KEY di script.
+      </p>
+    </div>
 
-  <div class="card admin-box">
-  <h2>Dashboard Admin</h2>
+    <!-- DASHBOARD -->
+    <div id="admin-panel" style="display:none;">
+      <div class="card" style="padding:14px; margin-bottom:12px;">
+        <h2 style="margin:0 0 10px; font-size:16px;">Dashboard Admin</h2>
 
-  <input id="pname" placeholder="Nama Produk">
-  <input id="pprice" placeholder="Harga">
-  <input id="pstock" placeholder="Stok">
+        <div style="display:grid; grid-template-columns:1fr; gap:10px;">
+          <input id="pname" placeholder="Nama Produk"
+            style="width:100%; padding:10px 12px; border-radius:10px; border:1px solid rgba(0,255,255,.12); background:rgba(0,0,0,.25); color:#eef7ff; outline:none;" />
 
-  <button onclick="addProduct()">Tambah Produk</button>
-</div>
-  <div id="product-list" class="grid"></div>
+          <input id="pprice" placeholder="Harga (angka, contoh: 5000)" type="number"
+            style="width:100%; padding:10px 12px; border-radius:10px; border:1px solid rgba(0,255,255,.12); background:rgba(0,0,0,.25); color:#eef7ff; outline:none;" />
 
-  <button class="logout-btn" onclick="logout()">Logout</button>
-</div>
+          <input id="pstock" placeholder="Stok (angka)" type="number"
+            style="width:100%; padding:10px 12px; border-radius:10px; border:1px solid rgba(0,255,255,.12); background:rgba(0,0,0,.25); color:#eef7ff; outline:none;" />
 
-<footer>© 2026 FF Store</footer>
+          <button class="btn-buy" onclick="addProduct()">Tambah Produk</button>
+        </div>
+      </div>
 
-<script src="script.js"></script>
+      <!-- LIST PRODUK (Pakai #product-list yang sama agar JS jalan) -->
+      <div id="loading">Loading produk...</div>
+      <div id="product-list"></div>
+
+      <div style="display:flex; gap:10px; margin-top:12px;">
+        <button class="btn-delete" style="flex:1;" onclick="logout()">Logout</button>
+      </div>
+
+      <div class="footer" style="margin-top:14px;">© <span id="year"></span> FF Store</div>
+    </div>
+  </main>
+
+  <script src="script.js" defer></script>
 </body>
-</html>
+  </html>
