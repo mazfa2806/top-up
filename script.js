@@ -1,7 +1,33 @@
 const API_URL = "https://script.google.com/macros/s/AKfycbwHxg_ir21pRQKVXi6q66yaSPx_Smii8UtRUPo4NS-zkUyiBByOwNuy0453herHp3bZxw/exec";
 const ADMIN_KEY = "mazfa2806";
 
-// Load produk untuk index/admin
+let PRODUCTS = [];
+
+// ===== Helpers =====
+function formatIDR(val) {
+  const n = Number(String(val).replace(/[^\d.-]/g, "")) || 0;
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    maximumFractionDigits: 0,
+  }).format(n);
+}
+function escapeHTML(str) {
+  return String(str).replace(/[&<>"']/g, m => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[m]));
+}
+function escapeJS(str) {
+  return String(str).replace(/'/g, "\\'");
+}
+function badgeFor(stockVal){
+  const s = Number(stockVal) || 0;
+  if (s <= 0) return { cls:"sold", text:"Habis" };
+  if (s <= 5) return { cls:"limited", text:"Limited" };
+  return { cls:"ready", text:"Ready" };
+}
+
+// ===== Load & Render =====
 function loadProducts(isAdmin) {
   const loading = document.getElementById("loading");
   const list = document.getElementById("product-list");
@@ -20,29 +46,11 @@ function loadProducts(isAdmin) {
         return;
       }
 
-      let html = "";
-      data.forEach((p, i) => {
-        const name = p?.name ?? "";
-        const price = p?.price ?? "";
-        const stock = p?.stock ?? "";
+      PRODUCTS = data;
+      renderProducts(isAdmin, PRODUCTS);
 
-        html += `
-          <div class="card">
-            <div class="info">
-              <h3>${escapeHTML(name)}</h3>
-              <p>Harga: ${escapeHTML(price)}</p>
-              <p>Stok: ${escapeHTML(stock)}</p>
-            </div>
-            ${
-              isAdmin
-                ? `<button onclick="deleteProduct(${i})">Hapus</button>`
-                : `<button onclick="buy('${escapeJS(name)}','${escapeJS(price)}')">Beli</button>`
-            }
-          </div>
-        `;
-      });
-
-      if (list) list.innerHTML = html;
+      // aktifkan search hanya di index (kalau elemennya ada)
+      setupSearchIfAny(isAdmin);
     })
     .catch(err => {
       if (loading) loading.style.display = "none";
@@ -51,15 +59,50 @@ function loadProducts(isAdmin) {
     });
 }
 
-// WhatsApp
-function buy(name, price) {
+function renderProducts(isAdmin, items) {
+  const list = document.getElementById("product-list");
+  if (!list) return;
+
+  let html = "";
+
+  items.forEach((p, i) => {
+    const name = p?.name ?? "";
+    const priceRaw = p?.price ?? "";
+    const stock = p?.stock ?? "";
+
+    const priceText = isAdmin ? escapeHTML(priceRaw) : formatIDR(priceRaw);
+    const badge = badgeFor(stock);
+
+    html += `
+      <div class="card">
+        <div class="info">
+          <h3>${escapeHTML(name)}</h3>
+          <p>Harga: ${priceText}</p>
+          <p>Stok: ${escapeHTML(stock)}</p>
+          ${!isAdmin ? `<div class="badge ${badge.cls}">${badge.text}</div>` : ``}
+        </div>
+
+        ${
+          isAdmin
+            ? `<button onclick="deleteProduct(${i})">Hapus</button>`
+            : `<button onclick="buy('${escapeJS(name)}','${escapeJS(priceText)}')">Beli</button>`
+        }
+      </div>
+    `;
+  });
+
+  list.innerHTML = html || `<div style="padding:12px;color:rgba(230,245,255,.65)">Tidak ada produk.</div>`;
+}
+
+// ===== WhatsApp =====
+function buy(name, priceText) {
   const waNumber = "6283850340631";
-  const text = `Halo admin, saya mau beli:\nProduk: ${name}\nHarga: ${price}`;
+  const text = `Halo admin, saya mau beli:\nProduk: ${name}\nHarga: ${priceText}`;
   const url = "https://wa.me/" + waNumber + "?text=" + encodeURIComponent(text);
   window.open(url, "_blank");
 }
 
-// Admin login
+// ===== Admin =====
 function login() {
   const passEl = document.getElementById("adminPass");
   const pass = passEl ? passEl.value : "";
@@ -74,12 +117,8 @@ function login() {
     alert("Password salah");
   }
 }
+function logout() { location.reload(); }
 
-function logout() {
-  location.reload();
-}
-
-// Add product (kompatibel dengan backend lama)
 function addProduct() {
   const nameEl = document.getElementById("pname");
   const priceEl = document.getElementById("pprice");
@@ -89,24 +128,20 @@ function addProduct() {
   const price = priceEl ? priceEl.value.trim() : "";
   const stock = stockEl ? stockEl.value.trim() : "";
 
-  if (!name || !price) {
-    alert("Nama & harga wajib diisi");
-    return;
-  }
+  if (!name || !price) return alert("Nama & harga wajib diisi");
 
   fetch(API_URL, {
     method: "POST",
-    // JANGAN pakai headers biar tetap seperti versi lama (menghindari CORS)
     body: JSON.stringify({
       key: ADMIN_KEY,
       action: "add",
 
-      // format baru
+      // format produk
       name: name,
       price: price,
       stock: stock,
 
-      // format lama (kalau backend kamu pakai ini)
+      // fallback kalau backend lama
       Produk: name,
       Harga: price,
       Stok: stock
@@ -119,7 +154,6 @@ function addProduct() {
     });
 }
 
-// Delete product (kompatibel dengan backend lama)
 function deleteProduct(i) {
   fetch(API_URL, {
     method: "POST",
@@ -136,12 +170,29 @@ function deleteProduct(i) {
     });
 }
 
-// Utils keamanan kecil
-function escapeHTML(str) {
-  return String(str).replace(/[&<>"']/g, m => ({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-  }[m]));
-}
-function escapeJS(str) {
-  return String(str).replace(/'/g, "\\'");
-                    }
+// ===== Search (Index only) =====
+function setupSearchIfAny(isAdmin){
+  if (isAdmin) return; // jangan ganggu admin
+
+  const search = document.getElementById("search");
+  const clearBtn = document.getElementById("clearSearch");
+  if (!search || !clearBtn) return;
+
+  // biar ga dobel listener kalau loadProducts dipanggil ulang
+  if (search.dataset.bound === "1") return;
+  search.dataset.bound = "1";
+
+  const apply = () => {
+    const q = (search.value || "").toLowerCase().trim();
+    const filtered = !q
+      ? PRODUCTS
+      : PRODUCTS.filter(p => String(p?.name || "").toLowerCase().includes(q));
+    renderProducts(false, filtered);
+  };
+
+  search.addEventListener("input", apply);
+  clearBtn.addEventListener("click", () => {
+    search.value = "";
+    apply();
+  });
+      }
