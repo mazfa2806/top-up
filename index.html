@@ -8,10 +8,8 @@
 </head>
 
 <body>
-  <!-- Ambient -->
   <div class="bg-orbs" aria-hidden="true"></div>
 
-  <!-- Topbar -->
   <div class="topbar">
     <div class="container topbar-inner">
       <div class="brand">
@@ -29,23 +27,21 @@
 
       <div class="topbar-actions">
         <a class="top-pill" href="#produk">Produk</a>
-        <a class="top-pill" href="#cara">Cara Order</a>
+        <a class="top-pill" href="#cara">Cara</a>
         <a class="top-cta" href="admin.html">Admin</a>
       </div>
     </div>
   </div>
 
-  <!-- Hero -->
   <header class="hero">
     <div class="container hero-inner">
       <div class="hero-left">
         <div class="hero-badge">⚡ Premium Diamond Market</div>
         <h1 class="hero-title">
-          Harga Jelas. Order Cepat.
-          <span class="hero-glow">Terlihat Mahal.</span>
+          Order Cepat, Tampilan <span class="hero-glow">Premium</span>.
         </h1>
         <p class="hero-desc">
-          Pilih paket diamond, klik <b>Beli</b>, otomatis masuk WhatsApp dengan format order.
+          Pilih paket → klik <b>Beli</b> → otomatis ke WhatsApp dengan format order.
         </p>
 
         <div class="hero-cta">
@@ -55,20 +51,20 @@
 
         <div class="trustbar">
           <div class="trust">✓ Real-time list</div>
-          <div class="trust">✓ Fast response</div>
+          <div class="trust">✓ Harga jelas</div>
           <div class="trust">✓ Stok terlihat</div>
-          <div class="trust">✓ Format order rapi</div>
+          <div class="trust">✓ Fast response</div>
         </div>
       </div>
 
       <div class="hero-right">
         <div class="hero-card">
           <div class="hero-card-title">🔥 Highlight</div>
-          <div class="hero-card-line">• Tampilan premium digital glow</div>
-          <div class="hero-card-line">• Tombol beli langsung WA</div>
-          <div class="hero-card-line">• Admin tambah/hapus produk</div>
+          <div class="hero-card-line">• Search produk realtime</div>
+          <div class="hero-card-line">• Harga format Rupiah</div>
+          <div class="hero-card-line">• Badge stok otomatis</div>
           <div class="hero-card-sep"></div>
-          <div class="hero-card-mini">Scroll ke bawah untuk lihat list produk.</div>
+          <div class="hero-card-mini">Scroll untuk lihat semua paket.</div>
         </div>
 
         <div class="hero-minirow">
@@ -85,7 +81,6 @@
     </div>
   </header>
 
-  <!-- Steps -->
   <section class="section" id="cara">
     <div class="container">
       <div class="section-head">
@@ -99,30 +94,29 @@
         <div class="step">
           <div class="step-num">1</div>
           <div class="step-title">Pilih paket</div>
-          <div class="step-desc">Cari diamond yang kamu butuhkan.</div>
+          <div class="step-desc">Cari paket diamond yang kamu butuhkan.</div>
         </div>
         <div class="step">
           <div class="step-num">2</div>
           <div class="step-title">Klik Beli</div>
-          <div class="step-desc">Otomatis masuk WhatsApp dengan teks.</div>
+          <div class="step-desc">WhatsApp kebuka dengan format order.</div>
         </div>
         <div class="step">
           <div class="step-num">3</div>
           <div class="step-title">Proses cepat</div>
-          <div class="step-desc">Admin konfirmasi & transaksi lanjut.</div>
+          <div class="step-desc">Admin konfirmasi lalu diproses.</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Products -->
   <main class="section" id="produk">
     <div class="container">
       <div class="section-head products-head">
         <div>
           <div class="section-kicker">Katalog</div>
           <div class="section-title">Daftar Produk</div>
-          <div class="section-sub">Klik beli untuk order via WhatsApp.</div>
+          <div class="section-sub">Search dulu biar cepat nemu.</div>
         </div>
         <div class="chips">
           <div class="chip">Realtime</div>
@@ -130,20 +124,24 @@
         </div>
       </div>
 
+      <!-- SEARCH BAR -->
+      <div class="searchbar">
+        <span class="search-ic" aria-hidden="true">🔎</span>
+        <input id="search" type="text" placeholder="Cari produk... contoh: diamond 50" />
+        <button id="clearSearch" type="button" class="search-clear">Reset</button>
+      </div>
+
       <div class="panel">
         <div id="loading" class="loading">Loading produk...</div>
-
-        <!-- Penting: ID tetap sama untuk script.js -->
         <div id="product-list" class="product-grid"></div>
       </div>
 
       <div class="note">
-        Tip: kalau stok kosong, chat admin dulu lewat tombol WhatsApp.
+        Badge: <b>Ready</b> (stok aman), <b>Limited</b> (stok sedikit), <b>Habis</b> (stok 0).
       </div>
     </div>
   </main>
 
-  <!-- FAQ -->
   <section class="section" id="faq">
     <div class="container">
       <div class="section-head">
@@ -160,11 +158,11 @@
         </details>
         <details class="faq-item">
           <summary>Harga sudah final?</summary>
-          <div class="faq-body">Harga di katalog adalah harga yang tercantum. Admin akan konfirmasi sebelum proses.</div>
+          <div class="faq-body">Harga sesuai list. Admin akan konfirmasi sebelum diproses.</div>
         </details>
         <details class="faq-item">
           <summary>Kalau stok habis?</summary>
-          <div class="faq-body">Klik chat WhatsApp dan tanya ketersediaan, nanti admin update stok.</div>
+          <div class="faq-body">Chat admin untuk restock / alternatif paket.</div>
         </details>
       </div>
 
@@ -174,14 +172,11 @@
     </div>
   </section>
 
-  <!-- Floating WA -->
   <a class="wa-float" href="https://wa.me/6283850340631" target="_blank" rel="noopener">
     WhatsApp
   </a>
 
   <script src="script.js"></script>
-  <script>
-    loadProducts(false);
-  </script>
+  <script>loadProducts(false);</script>
 </body>
-  </html>
+          </html>
