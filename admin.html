@@ -1,68 +1,88 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta charset="UTF-8">
-  <title>Admin MAZFA Store</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin • MAZFA MARKET</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<h1 class="title page-title">ADMIN MAZFA STORE</h1>
+  <div class="fx-bg" aria-hidden="true"></div>
 
-<!-- LOGIN -->
-<div id="login-box" class="card admin-box">
-  <h2>Admin Login</h2>
-  <input type="password" id="adminPass" placeholder="Password admin">
-  <button class="login-btn" onclick="login()">Login</button>
-</div>
+  <header class="navx">
+    <div class="navx-inner">
+      <div class="navx-left">
+        <div class="navx-meta">
+          <div class="navx-title">ADMIN PANEL</div>
+          <div class="navx-sub"><span class="navx-dot"></span> Manage Products</div>
+        </div>
+      </div>
+      <div class="navx-right">
+        <a class="navx-link" href="index.html">Kembali</a>
+      </div>
+    </div>
+  </header>
 
-<!-- DASHBOARD -->
-<div id="admin-panel" style="display:none" class="admin-wrap">
+  <main class="wrapX adminWrapX">
+    <!-- Login -->
+    <section id="login-box" class="cardX adminCardX">
+      <h2 class="h2X">Login</h2>
+      <input id="adminPass" class="inputX" type="password" placeholder="Password admin" />
+      <button class="btnX primary fullX" onclick="login()">Login</button>
+      <div class="hintX">Tip: jangan share password.</div>
+    </section>
 
-  <!-- FORM TAMBAH -->
-  <div class="card admin-box">
-    <h2>Tambah Produk</h2>
+    <!-- Admin Panel -->
+    <section id="admin-panel" style="display:none" class="adminGridX">
 
-    <select id="pcat" class="admin-select">
-      <option value="ff">Diamond Free Fire</option>
-      <option value="panel">Panel Pterodactyl</option>
-      <option value="apk">APK Premium</option>
-      <option value="lain">Lainnya</option>
-    </select>
+      <div class="cardX adminCardX">
+        <h2 class="h2X">Tambah Produk</h2>
 
-    <input id="pname" placeholder="Nama Produk">
-    <input id="pprice" placeholder="Harga (angka)">
-    <input id="pstock" placeholder="Stok">
+        <select id="pcat" class="selectX">
+          <option value="ff">Diamond Free Fire</option>
+          <option value="panel">Panel Pterodactyl</option>
+          <option value="apk">APK Premium</option>
+          <option value="lain">Lainnya</option>
+        </select>
 
-    <button onclick="addProduct()">Tambah Produk</button>
-  </div>
+        <input id="pname" class="inputX" placeholder="Nama Produk" />
+        <input id="pprice" class="inputX" placeholder="Harga (angka)" inputmode="numeric" />
+        <input id="pstock" class="inputX" placeholder="Stok" inputmode="numeric" />
 
-  <!-- FILTER -->
-  <div class="card admin-box">
-    <h2>Filter Produk</h2>
+        <button class="btnX primary fullX" onclick="addProduct()">Tambah</button>
+      </div>
 
-    <input id="adminSearch" placeholder="Cari produk (admin)...">
+      <div class="cardX adminCardX">
+        <h2 class="h2X">Filter & Delete</h2>
 
-    <select id="adminCategory" class="admin-select">
-      <option value="all">Semua Kategori</option>
-      <option value="ff">Diamond Free Fire</option>
-      <option value="panel">Panel Pterodactyl</option>
-      <option value="apk">APK Premium</option>
-      <option value="lain">Lainnya</option>
-    </select>
+        <input id="adminSearch" class="inputX" placeholder="Cari produk..." />
 
-    <button onclick="adminResetFilter()">Reset Filter</button>
-  </div>
+        <select id="adminCategory" class="selectX">
+          <option value="all">Semua Kategori</option>
+          <option value="ff">Diamond Free Fire</option>
+          <option value="panel">Panel Pterodactyl</option>
+          <option value="apk">APK Premium</option>
+          <option value="lain">Lainnya</option>
+        </select>
 
-  <div id="loading" class="loading">Loading produk...</div>
-  <div id="product-list" class="grid"></div>
+        <button class="btnX ghost fullX" onclick="adminResetFilter()">Reset Filter</button>
 
-  <button class="logout-btn" onclick="logout()">Logout</button>
+        <div class="miniInfoX">
+          Hapus produk dengan tombol <b>Hapus</b> pada kartu.
+        </div>
+      </div>
 
-  <footer class="footer">© 2026 MAZFA OFFICIAL</footer>
-</div>
+      <div class="panelX adminListX">
+        <div id="loading" class="loadingX">Loading produk...</div>
+        <div id="product-list" class="gridX"></div>
+      </div>
 
-<script src="script.js"></script>
+      <button class="btnX ghost fullX" onclick="logout()">Logout</button>
+      <footer class="footX">© 2026 MAZFA MARKET</footer>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
 </body>
-</html>
+  </html>
